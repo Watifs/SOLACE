@@ -1029,13 +1029,20 @@ class NowPlayingOverlay(Frame):
         for i, song in enumerate(shown):
             is_manual = i < n_manual
             row_bg = "#0f1a15" if is_manual else BG
-            row = Frame(self._q_fr, bg=row_bg, pady=6); row.pack(fill=X)
+            # Index used by the click handler to jump straight to this track
+            if is_manual: jump_idx = i                          # index in _next_up
+            else:         jump_idx = app._q_idx + 1 + (i-n_manual)  # index in _queue
+            clickable = []   # widgets that should trigger "skip to this song"
+            row = Frame(self._q_fr, bg=row_bg, pady=6, cursor="hand2"); row.pack(fill=X)
+            clickable.append(row)
             if is_manual:
-                Label(row, text="▸", font=(FF,9), bg=row_bg,
-                      fg=ACCENT).pack(side=LEFT, padx=(8,4))
+                lead = Label(row, text="▸", font=(FF,9), bg=row_bg,
+                             fg=ACCENT, cursor="hand2"); lead.pack(side=LEFT, padx=(8,4))
             else:
-                Label(row, text=f"{i+1-n_manual}", font=(FF,9), bg=row_bg,
-                      fg=TXT_DIM, width=3, anchor=E).pack(side=LEFT, padx=(8,4))
+                lead = Label(row, text=f"{i+1-n_manual}", font=(FF,9), bg=row_bg,
+                             fg=TXT_DIM, width=3, anchor=E, cursor="hand2")
+                lead.pack(side=LEFT, padx=(8,4))
+            clickable.append(lead)
             em   = song.emotion
             col  = EM_COL.get(em,"#aaa"); bg_c = EM_BG.get(em,"#1a1a1a")
             icon = EM_ICON.get(em,"♪")
@@ -1062,19 +1069,43 @@ class NowPlayingOverlay(Frame):
                            activebackground=row_bg, activeforeground=TXT,
                            command=lambda x=ri: self._q_up(x)
                            ).pack(side=RIGHT, padx=(0,2))
-            info = Frame(row, bg=row_bg); info.pack(side=LEFT, fill=X, expand=True)
+            info = Frame(row, bg=row_bg, cursor="hand2")
+            info.pack(side=LEFT, fill=X, expand=True)
+            clickable.append(info)
             disp = song.title or song.name
-            Label(info, text=(disp[:42]+"…") if len(disp)>42 else disp,
-                  font=(FF,10,"bold"), bg=row_bg, fg=TXT, anchor=W).pack(fill=X)
+            name_lbl = Label(info, text=(disp[:42]+"…") if len(disp)>42 else disp,
+                             font=(FF,10,"bold"), bg=row_bg, fg=TXT,
+                             anchor=W, cursor="hand2")
+            name_lbl.pack(fill=X); clickable.append(name_lbl)
             if song.artist:
-                Label(info, text=song.artist, font=(FF,8), bg=row_bg,
-                      fg=TXT_DIM, anchor=W).pack(fill=X)
+                art_lbl = Label(info, text=song.artist, font=(FF,8), bg=row_bg,
+                                fg=TXT_DIM, anchor=W, cursor="hand2")
+                art_lbl.pack(fill=X); clickable.append(art_lbl)
+            # Clicking anywhere on the row (except the ✕ ↑ ↓ buttons) skips to it
+            for w in clickable:
+                w.bind("<Button-1>",
+                       lambda e, s=song, m=is_manual, j=jump_idx: self._q_jump(s, m, j))
             Frame(self._q_fr, bg=BORDER, height=1).pack(fill=X)
         if len(all_ahead) > len(shown):
             Label(self._q_fr, text=f"  + {len(all_ahead)-len(shown)} more…",
                   font=(FF,9), bg=BG, fg=TXT_DIM, anchor=W, pady=6).pack(fill=X)
         self._q_cv.update_idletasks()
         self._q_cv.configure(scrollregion=self._q_cv.bbox("all"))
+
+    def _q_jump(self, song, is_manual: bool, idx: int):
+        """Skip straight to a clicked queue item and start playing it."""
+        app = self.app
+        if is_manual:
+            # Pull the song out of the manual 'play next' list and play it now
+            if 0 <= idx < len(app._next_up):
+                s = app._next_up.pop(idx)
+                app._play_queued_song(s)
+        else:
+            # Song already sits in the main queue ahead of the current track
+            if 0 <= idx < len(app._queue):
+                app._q_idx = idx
+                app._play_current()
+        self._render_queue()
 
     def _q_remove(self, idx: int):
         if 0 <= idx < len(self.app._next_up):
@@ -2370,6 +2401,17 @@ class SolaceApp:
         self._refresh_queue_display()
         self._status.set(f"Added to queue: {song.title or song.name}  "
                          f"({len(self._next_up)} in queue)")
+
+    def _play_queued_song(self, song):
+        """Insert a song right after the current track and play it immediately."""
+        if not _PYGAME: return
+        if self._queue and 0 <= self._q_idx < len(self._queue):
+            self._queue.insert(self._q_idx + 1, song)
+            self._q_idx += 1
+        else:
+            self._queue = [song]; self._q_idx = 0
+        self._play_current()
+        self._refresh_queue_display()
 
     def _refresh_queue_display(self):
         if self._overlay:

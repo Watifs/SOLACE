@@ -65,7 +65,7 @@
         "z": 0.552192079574077,
         "s": 0.22325778210458574
       },
-      "duration": 0.0,
+      "duration": 212.28845804988663,
       "user_override": true,
       "tag_source": "user",
       "internet_genre": "dance",
@@ -186,7 +186,7 @@
       "name": "「Cover」Scatterbrain",
       "title": "「Cover」Scatterbrain",
       "artist": "",
-      "emotion": "energetic",
+      "emotion": "calm",
       "features": {
         "tempo_bpm": 123.0,
         "mfcc": [
@@ -211,7 +211,7 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "auto",
+      "tag_source": "lyrics",
       "internet_genre": "instrumental",
       "internet_emotion": "focused",
       "original_auto": "",
@@ -497,7 +497,7 @@
         "z": 0.515543500581676,
         "s": 0.15367212118726517
       },
-      "duration": 0.0,
+      "duration": 254.0727664399093,
       "user_override": true,
       "tag_source": "user",
       "internet_genre": "alternative",
@@ -533,7 +533,7 @@
         "z": 1.0,
         "s": 0.5892014804037911
       },
-      "duration": 0.0,
+      "duration": 228.91403628117914,
       "user_override": true,
       "tag_source": "user",
       "internet_genre": "rock",
@@ -569,7 +569,7 @@
         "z": 0.6653330146822386,
         "s": 0.4155207854929391
       },
-      "duration": 0.0,
+      "duration": 245.561179138322,
       "user_override": true,
       "tag_source": "user",
       "internet_genre": "alternative",
@@ -605,7 +605,7 @@
         "z": 0.8170430833582911,
         "s": 0.31602540121713374
       },
-      "duration": 0.0,
+      "duration": 280.6480045351474,
       "user_override": true,
       "tag_source": "user",
       "internet_genre": "pop",
@@ -677,7 +677,7 @@
         "z": 0.49879104242409217,
         "s": 0.1558617509076187
       },
-      "duration": 0.0,
+      "duration": 182.82233560090702,
       "user_override": true,
       "tag_source": "confirmed",
       "internet_genre": "pop",
@@ -2346,7 +2346,7 @@
       "name": "Avicii & Sandro Cavazza - Without You “Audio”",
       "title": "Without You “Audio”",
       "artist": "Avicii & Sandro Cavazza",
-      "emotion": "energetic",
+      "emotion": "happy",
       "features": {
         "tempo_bpm": 136.0,
         "mfcc": [
@@ -2371,7 +2371,7 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "auto",
+      "tag_source": "lyrics",
       "internet_genre": "dance",
       "internet_emotion": "energetic",
       "original_auto": "",
@@ -2479,7 +2479,7 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "auto",
+      "tag_source": "lyrics",
       "internet_genre": "pop",
       "internet_emotion": "happy",
       "original_auto": "",
@@ -2670,7 +2670,7 @@
       "name": "black code - wise",
       "title": "wise",
       "artist": "black code",
-      "emotion": "focused",
+      "emotion": "melancholic",
       "features": {
         "tempo_bpm": 117.5,
         "mfcc": [
@@ -2695,7 +2695,7 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "auto",
+      "tag_source": "lyrics",
       "internet_genre": "hip-hop/rap",
       "internet_emotion": "energetic",
       "original_auto": "",
@@ -2768,10 +2768,10 @@
       "duration": 0.0,
       "user_override": false,
       "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "internet_genre": "pop",
+      "internet_emotion": "happy",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/83/fc/17/83fc17c8-c92c-b44e-22e0-de330991c915/602507117108.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Blanke & Megan Ashworth - Colder.mp3",
@@ -2804,10 +2804,10 @@
       "duration": 0.0,
       "user_override": false,
       "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "internet_genre": "electronica",
+      "internet_emotion": "energetic",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/9f/90/4a/9f904acf-fef1-051d-ea4a-2b0627b2a60d/0.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/BOY LOCO - Slow Dancing.mp3",
@@ -2840,17 +2840,17 @@
       "duration": 0.0,
       "user_override": false,
       "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "internet_genre": "pop",
+      "internet_emotion": "happy",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/75/73/b6/7573b6d6-6781-84c3-865d-b776480de45b/5054197998867.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/BRDGS - Dancing Without Music.mp3",
       "name": "BRDGS - Dancing Without Music",
       "title": "Dancing Without Music",
       "artist": "BRDGS",
-      "emotion": "energetic",
+      "emotion": "happy",
       "features": {
         "tempo_bpm": 161.5,
         "mfcc": [
@@ -2875,18 +2875,18 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "auto",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "tag_source": "internet",
+      "internet_genre": "pop",
+      "internet_emotion": "happy",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/51/fd/04/51fd046c-779e-b1de-8d6f-bc8f92e4a641/artwork.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Bruno Major - Nothing.mp3",
       "name": "Bruno Major - Nothing",
       "title": "Nothing",
       "artist": "Bruno Major",
-      "emotion": "energetic",
+      "emotion": "melancholic",
       "features": {
         "tempo_bpm": 143.6,
         "mfcc": [
@@ -2911,11 +2911,11 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "auto",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "tag_source": "internet",
+      "internet_genre": "alternative",
+      "internet_emotion": "melancholic",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/1e/4d/0c/1e4d0c2d-e49c-b8ed-c975-274bf347ac1a/5056167122319.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Bruno Martini, Avian Grays & TRIXL - Save Me (feat. Mayra).mp3",
@@ -2948,10 +2948,10 @@
       "duration": 0.0,
       "user_override": false,
       "tag_source": "auto",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "internet_genre": "dance",
+      "internet_emotion": "energetic",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/54/f6/5a/54f65a2e-a848-3dae-065f-f0440c945bc0/dj.vkzbrjyt.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/BTS - Dynamite.mp3",
@@ -2984,10 +2984,10 @@
       "duration": 0.0,
       "user_override": false,
       "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "internet_genre": "k-pop",
+      "internet_emotion": "happy",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/03/8d/0e/038d0e52-e96d-f386-b8eb-9f77fa013543/195497146918_Cover.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/BTS - Make It Right (feat. Lauv).mp3",
@@ -3020,17 +3020,17 @@
       "duration": 0.0,
       "user_override": false,
       "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "internet_genre": "k-pop",
+      "internet_emotion": "happy",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/8a/1b/ff/8a1bff0f-b06b-af1a-e1dd-02e3985feaad/194491485726_Cover.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/CADMIUM & Rosendale - No Friends.mp3",
       "name": "CADMIUM & Rosendale - No Friends",
       "title": "No Friends",
       "artist": "CADMIUM & Rosendale",
-      "emotion": "energetic",
+      "emotion": "happy",
       "features": {
         "tempo_bpm": 143.6,
         "mfcc": [
@@ -3055,11 +3055,11 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "auto",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "tag_source": "lyrics",
+      "internet_genre": "pop",
+      "internet_emotion": "happy",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/60/e5/c5/60e5c57b-4c25-3737-45ed-911311a67866/artwork.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Cafuné - Tek It (Sped Up).mp3",
@@ -3092,10 +3092,10 @@
       "duration": 0.0,
       "user_override": false,
       "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "internet_genre": "alternative",
+      "internet_emotion": "melancholic",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/6f/25/03/6f250394-d7a9-48b6-6114-e884566705df/075679746269.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Cafuné - Tek It.mp3",
@@ -3128,17 +3128,17 @@
       "duration": 0.0,
       "user_override": false,
       "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "internet_genre": "alternative",
+      "internet_emotion": "melancholic",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/6f/25/03/6f250394-d7a9-48b6-6114-e884566705df/075679746269.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Camila Cabello - Bam Bam (Official Audio) (feat. Ed Sheeran).mp3",
       "name": "Camila Cabello - Bam Bam (Official Audio) (feat. Ed Sheeran)",
       "title": "Bam Bam (Official Audio) (feat. Ed Sheeran)",
       "artist": "Camila Cabello",
-      "emotion": "energetic",
+      "emotion": "happy",
       "features": {
         "tempo_bpm": 184.6,
         "mfcc": [
@@ -3163,11 +3163,11 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "auto",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "tag_source": "internet",
+      "internet_genre": "pop",
+      "internet_emotion": "happy",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/b7/e3/2f/b7e32fd7-7ca3-edf6-7df8-861bfcfd6f9a/886449526772.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Camila Cabello - Shameless.mp3",
@@ -3200,17 +3200,17 @@
       "duration": 0.0,
       "user_override": false,
       "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "internet_genre": "pop",
+      "internet_emotion": "happy",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/c5/d5/7e/c5d57e36-4270-8730-d009-5e82a71016f7/886448121220.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Camilo & Shawn Mendes - KESI.mp3",
       "name": "Camilo & Shawn Mendes - KESI",
       "title": "KESI",
       "artist": "Camilo & Shawn Mendes",
-      "emotion": "sad",
+      "emotion": "happy",
       "features": {
         "tempo_bpm": 123.0,
         "mfcc": [
@@ -3235,11 +3235,11 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "tag_source": "internet",
+      "internet_genre": "pop",
+      "internet_emotion": "happy",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/33/86/23/338623a4-5b1b-0836-68d0-76e75fb4d7c3/886449418695.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Carly Rae Jepsen - I Really Like You.mp3",
@@ -3272,10 +3272,10 @@
       "duration": 0.0,
       "user_override": false,
       "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "internet_genre": "pop",
+      "internet_emotion": "happy",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/3c/d6/b4/3cd6b429-af73-b8a8-7c32-03f8da35bbef/25UM1IM06993.rgb.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Celtic Woman - Tír na nÓg.mp3",
@@ -3308,17 +3308,17 @@
       "duration": 0.0,
       "user_override": false,
       "tag_source": "lyrics",
-      "internet_genre": "",
+      "internet_genre": "worldwide",
       "internet_emotion": "",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/50/56/41/50564186-b1cd-8ff3-d815-0fbe1a9110a0/00602547623447.rgb.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Central Cee & Ice Spice - Did It First.mp3",
       "name": "Central Cee & Ice Spice - Did It First",
       "title": "Did It First",
       "artist": "Central Cee & Ice Spice",
-      "emotion": "focused",
+      "emotion": "energetic",
       "features": {
         "tempo_bpm": 152.0,
         "mfcc": [
@@ -3343,18 +3343,18 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "tag_source": "internet",
+      "internet_genre": "hip-hop/rap",
+      "internet_emotion": "energetic",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/9a/15/50/9a1550fa-6400-a99a-6aa0-43363a919d95/24UMGIM56229.rgb.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Chalklines & Crystal Knives - Superhuman (feat. Brooke Williams).mp3",
       "name": "Chalklines & Crystal Knives - Superhuman (feat. Brooke Williams)",
       "title": "Superhuman (feat. Brooke Williams)",
       "artist": "Chalklines & Crystal Knives",
-      "emotion": "energetic",
+      "emotion": "happy",
       "features": {
         "tempo_bpm": 143.6,
         "mfcc": [
@@ -3379,18 +3379,18 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "auto",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "tag_source": "lyrics",
+      "internet_genre": "dance",
+      "internet_emotion": "energetic",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/76/70/d4/7670d4ea-c54b-8306-feac-46e2a3e209f7/cover.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Charli xcx - party 4 u.mp3",
       "name": "Charli xcx - party 4 u",
       "title": "party 4 u",
       "artist": "Charli xcx",
-      "emotion": "sad",
+      "emotion": "happy",
       "features": {
         "tempo_bpm": 107.7,
         "mfcc": [
@@ -3415,11 +3415,11 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "tag_source": "internet",
+      "internet_genre": "pop",
+      "internet_emotion": "happy",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/1a/5c/e9/1a5ce93c-aef4-6667-b7d1-7162203e1c39/190295229993.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Chase Atlantic - Consume (feat. GOON DES GARCONS_).mp3",
@@ -3452,17 +3452,17 @@
       "duration": 0.0,
       "user_override": false,
       "tag_source": "auto",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "internet_genre": "alternative",
+      "internet_emotion": "melancholic",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/d1/36/7e/d1367ea2-40e5-c689-5241-290f1b0daaf9/093624914174.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Chase Atlantic - Friends.mp3",
       "name": "Chase Atlantic - Friends",
       "title": "Friends",
       "artist": "Chase Atlantic",
-      "emotion": "sad",
+      "emotion": "melancholic",
       "features": {
         "tempo_bpm": 71.8,
         "mfcc": [
@@ -3487,11 +3487,11 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "tag_source": "internet",
+      "internet_genre": "alternative",
+      "internet_emotion": "melancholic",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/90/d1/3f/90d13fba-4c95-f97a-511c-145a39df9e68/5055834135256.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Chase Atlantic - Swim.mp3",
@@ -3524,17 +3524,17 @@
       "duration": 0.0,
       "user_override": false,
       "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "internet_genre": "alternative",
+      "internet_emotion": "melancholic",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/44/94/0b/44940bbe-6298-0a49-b832-79539ee15e54/5059460325074.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Chevy & Nalba - Morning Coffee.mp3",
       "name": "Chevy & Nalba - Morning Coffee",
       "title": "Morning Coffee",
       "artist": "Chevy & Nalba",
-      "emotion": "melancholic",
+      "emotion": "calm",
       "features": {
         "tempo_bpm": 103.4,
         "mfcc": [
@@ -3559,18 +3559,18 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "auto",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "tag_source": "lyrics",
+      "internet_genre": "singer/songwriter",
+      "internet_emotion": "calm",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/7d/b8/05/7db805c5-746b-2a59-29cb-12680fbc96e7/artwork.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Chris Andrian Yang - 真夜中のドア (Stay With Me) - 松原みき (Miki Matsubara) _ Cover by Chris Andrian Yang.mp3",
       "name": "Chris Andrian Yang - 真夜中のドア (Stay With Me) - 松原みき (Miki Matsubara) _ Cover by Chris Andrian Yang",
       "title": "真夜中のドア (Stay With Me) - 松原みき (Miki Matsubara) _ Cover by Chris Andrian Yang",
       "artist": "Chris Andrian Yang",
-      "emotion": "energetic",
+      "emotion": "happy",
       "features": {
         "tempo_bpm": 198.8,
         "mfcc": [
@@ -3595,18 +3595,18 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "auto",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "tag_source": "internet",
+      "internet_genre": "pop",
+      "internet_emotion": "happy",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/62/81/70/628170d6-b413-361d-6ebd-6bc2a14433ce/artwork.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Chrystal & NOTION - The Days (NOTION Remix).mp3",
       "name": "Chrystal & NOTION - The Days (NOTION Remix)",
       "title": "The Days (NOTION Remix)",
       "artist": "Chrystal & NOTION",
-      "emotion": "happy",
+      "emotion": "calm",
       "features": {
         "tempo_bpm": 92.3,
         "mfcc": [
@@ -3631,18 +3631,18 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "auto",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "tag_source": "lyrics",
+      "internet_genre": "dance",
+      "internet_emotion": "energetic",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/8c/06/16/8c06167d-14ce-161e-9ab9-2c3e5453e6c8/25UMGIM52929.rgb.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/cinnamons & evening cinema - summertime.mp3",
       "name": "cinnamons & evening cinema - summertime",
       "title": "summertime",
       "artist": "cinnamons & evening cinema",
-      "emotion": "melancholic",
+      "emotion": "happy",
       "features": {
         "tempo_bpm": 129.2,
         "mfcc": [
@@ -3667,18 +3667,18 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "tag_source": "internet",
+      "internet_genre": "j-pop",
+      "internet_emotion": "happy",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/f9/95/53/f995539d-b524-2c08-b588-c7c9f4b20474/859753708424_cover.png/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/civicxxx - No Paro de Pensar.mp3",
       "name": "civicxxx - No Paro de Pensar",
       "title": "No Paro de Pensar",
       "artist": "civicxxx",
-      "emotion": "happy",
+      "emotion": "melancholic",
       "features": {
         "tempo_bpm": 95.7,
         "mfcc": [
@@ -3703,7 +3703,7 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "auto",
+      "tag_source": "lyrics",
       "internet_genre": "",
       "internet_emotion": "",
       "original_auto": "",
@@ -3740,17 +3740,17 @@
       "duration": 0.0,
       "user_override": false,
       "tag_source": "auto",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "internet_genre": "k-pop",
+      "internet_emotion": "happy",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/d7/c5/f4/d7c5f4ac-c01e-7445-8775-7f4813ef7eae/190295189877.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Coda - BLOODY STREAM.mp3",
       "name": "Coda - BLOODY STREAM",
       "title": "BLOODY STREAM",
       "artist": "Coda",
-      "emotion": "energetic",
+      "emotion": "melancholic",
       "features": {
         "tempo_bpm": 129.2,
         "mfcc": [
@@ -3775,18 +3775,18 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "auto",
-      "internet_genre": "",
+      "tag_source": "lyrics",
+      "internet_genre": "anime",
       "internet_emotion": "",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/85/21/ad/8521add8-b720-0549-0b0f-9f9f3a9da869/082392_J.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Cody Simpson - La Da Dee.mp3",
       "name": "Cody Simpson - La Da Dee",
       "title": "La Da Dee",
       "artist": "Cody Simpson",
-      "emotion": "sad",
+      "emotion": "happy",
       "features": {
         "tempo_bpm": 117.5,
         "mfcc": [
@@ -3811,18 +3811,18 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "tag_source": "internet",
+      "internet_genre": "pop",
+      "internet_emotion": "happy",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/6c/76/38/6c763878-622b-5b1e-84e8-ab4fbb48991e/075679951717.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/COIN - Killing Me.mp3",
       "name": "COIN - Killing Me",
       "title": "Killing Me",
       "artist": "COIN",
-      "emotion": "sad",
+      "emotion": "happy",
       "features": {
         "tempo_bpm": 123.0,
         "mfcc": [
@@ -3847,18 +3847,18 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "tag_source": "internet",
+      "internet_genre": "pop",
+      "internet_emotion": "happy",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/3e/5d/0c/3e5d0c30-a62b-c4ee-7482-a75c3c9fddc7/842812168345.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/COIN - Talk Too Much.mp3",
       "name": "COIN - Talk Too Much",
       "title": "Talk Too Much",
       "artist": "COIN",
-      "emotion": "sad",
+      "emotion": "melancholic",
       "features": {
         "tempo_bpm": 103.4,
         "mfcc": [
@@ -3883,11 +3883,11 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "tag_source": "internet",
+      "internet_genre": "alternative",
+      "internet_emotion": "melancholic",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/8e/b9/b7/8eb9b75b-a9d5-b5ea-978e-689eae544ecf/886446369365.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Cutty Vibez - BACKSEAT.mp3",
@@ -3930,7 +3930,7 @@
       "name": "Cutty Vibez - BLOOD",
       "title": "BLOOD",
       "artist": "Cutty Vibez",
-      "emotion": "happy",
+      "emotion": "sad",
       "features": {
         "tempo_bpm": 99.4,
         "mfcc": [
@@ -3955,7 +3955,7 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "auto",
+      "tag_source": "lyrics",
       "internet_genre": "",
       "internet_emotion": "",
       "original_auto": "",
@@ -3966,7 +3966,7 @@
       "name": "Cutty Vibez & Grioten - FACE IT",
       "title": "FACE IT",
       "artist": "Cutty Vibez & Grioten",
-      "emotion": "happy",
+      "emotion": "sad",
       "features": {
         "tempo_bpm": 117.5,
         "mfcc": [
@@ -3991,7 +3991,7 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "auto",
+      "tag_source": "lyrics",
       "internet_genre": "",
       "internet_emotion": "",
       "original_auto": "",
@@ -4002,7 +4002,7 @@
       "name": "Cutty Vibez, DeeKay & CLXUDA - HANDS UP",
       "title": "HANDS UP",
       "artist": "Cutty Vibez, DeeKay & CLXUDA",
-      "emotion": "happy",
+      "emotion": "angry",
       "features": {
         "tempo_bpm": 107.7,
         "mfcc": [
@@ -4027,7 +4027,7 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "auto",
+      "tag_source": "lyrics",
       "internet_genre": "",
       "internet_emotion": "",
       "original_auto": "",
@@ -4038,7 +4038,7 @@
       "name": "Cutty Vibez, XATASHI & GREYDAWN - PLASTIC MEMORIES",
       "title": "PLASTIC MEMORIES",
       "artist": "Cutty Vibez, XATASHI & GREYDAWN",
-      "emotion": "focused",
+      "emotion": "melancholic",
       "features": {
         "tempo_bpm": 107.7,
         "mfcc": [
@@ -4063,7 +4063,7 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "auto",
+      "tag_source": "lyrics",
       "internet_genre": "",
       "internet_emotion": "",
       "original_auto": "",
@@ -4074,7 +4074,7 @@
       "name": "d4vd - Feel It (From “Invincible”)",
       "title": "Feel It (From “Invincible”)",
       "artist": "d4vd",
-      "emotion": "sad",
+      "emotion": "melancholic",
       "features": {
         "tempo_bpm": 123.0,
         "mfcc": [
@@ -4099,11 +4099,11 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "tag_source": "internet",
+      "internet_genre": "alternative",
+      "internet_emotion": "melancholic",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/1c/4a/d2/1c4ad2bd-efc3-0084-980f-003c01e4cfcd/24UMGIM24769.rgb.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Daddy Yankee - Con Calma (feat. Snow).mp3",
@@ -4136,10 +4136,10 @@
       "duration": 0.0,
       "user_override": false,
       "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "internet_genre": "urbano latino",
+      "internet_emotion": "happy",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/89/4e/ad/894eade7-f1d8-37bf-72f9-88c496eedfdd/19UMGIM00637.rgb.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Dan + Shay & Justin Bieber - 10,000 Hours.mp3",
@@ -4172,10 +4172,10 @@
       "duration": 0.0,
       "user_override": false,
       "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "internet_genre": "country",
+      "internet_emotion": "happy",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/c4/80/7f/c4807f05-fa68-a123-c077-bf8041ff3319/054391940995.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/DAOKO & Kenshi Yonezu - 打上花火.mp3",
@@ -4207,18 +4207,18 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "auto",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "tag_source": "lyrics",
+      "internet_genre": "j-pop",
+      "internet_emotion": "happy",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/a8/cf/1f/a8cf1f9a-d988-7c3d-b618-6ab53d12bc0d/TFCC-89632WW.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/DARLING in the FRANXX Opening 1 _ KISS OF DEATH.mp3",
       "name": "DARLING in the FRANXX Opening 1 _ KISS OF DEATH",
       "title": "DARLING in the FRANXX Opening 1 _ KISS OF DEATH",
       "artist": "",
-      "emotion": "happy",
+      "emotion": "melancholic",
       "features": {
         "tempo_bpm": 123.0,
         "mfcc": [
@@ -4243,11 +4243,11 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "auto",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "tag_source": "internet",
+      "internet_genre": "alternative",
+      "internet_emotion": "melancholic",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music123/v4/31/98/fe/3198fe1a-3d6f-d2e4-3df9-33ab0cc6ba30/840091868420.png/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/DEAMN - Hypnotized (Audio).mp3",
@@ -4280,10 +4280,10 @@
       "duration": 0.0,
       "user_override": false,
       "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "internet_genre": "dance",
+      "internet_emotion": "energetic",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/76/27/15/762715b0-b492-8159-88c1-385027a623ef/859761632865_cover.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/DEAMN - Rendezvous (Audio).mp3",
@@ -4316,10 +4316,10 @@
       "duration": 0.0,
       "user_override": false,
       "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "internet_genre": "dance",
+      "internet_emotion": "energetic",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/5e/54/1b/5e541b0c-5cac-f1ce-2a2f-f999de2a2f29/859761594835_cover.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/dhruv - double take.mp3",
@@ -4352,17 +4352,17 @@
       "duration": 0.0,
       "user_override": false,
       "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "internet_genre": "pop",
+      "internet_emotion": "happy",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/5f/ea/71/5fea71a9-7dbd-9a0c-fb8a-9f151f506f52/5056271652788.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Disco Lines & Tinashe - No Broke Boys.mp3",
       "name": "Disco Lines & Tinashe - No Broke Boys",
       "title": "No Broke Boys",
       "artist": "Disco Lines & Tinashe",
-      "emotion": "happy",
+      "emotion": "energetic",
       "features": {
         "tempo_bpm": 129.2,
         "mfcc": [
@@ -4387,18 +4387,18 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "tag_source": "internet",
+      "internet_genre": "dance",
+      "internet_emotion": "energetic",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/fa/3f/05/fa3f051a-3f86-c6af-0a5c-ecc338b2ea03/96cdb441-8c4d-404a-b7e3-0acd299eb417.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/DJ Khalil - Elevate (feat. Denzel Curry, YBN Cordae, SWAVAY & Trevor Rich).mp3",
       "name": "DJ Khalil - Elevate (feat. Denzel Curry, YBN Cordae, SWAVAY & Trevor Rich)",
       "title": "Elevate (feat. Denzel Curry, YBN Cordae, SWAVAY & Trevor Rich)",
       "artist": "DJ Khalil",
-      "emotion": "angry",
+      "emotion": "focused",
       "features": {
         "tempo_bpm": 129.2,
         "mfcc": [
@@ -4423,11 +4423,11 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "tag_source": "internet",
+      "internet_genre": "soundtrack",
+      "internet_emotion": "focused",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/65/28/ad/6528ad6c-cfeb-fb08-ea85-b19c4612ab08/18UMGIM82277.rgb.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Dominic Fike - 3 Nights.mp3",
@@ -4460,10 +4460,10 @@
       "duration": 0.0,
       "user_override": false,
       "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "internet_genre": "alternative",
+      "internet_emotion": "melancholic",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/2d/37/18/2d3718e9-8620-b603-d3cc-f34ce817070d/886447290170.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Dominic Fike - Babydoll.mp3",
@@ -4496,10 +4496,10 @@
       "duration": 0.0,
       "user_override": false,
       "tag_source": "auto",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "internet_genre": "alternative",
+      "internet_emotion": "melancholic",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/2d/37/18/2d3718e9-8620-b603-d3cc-f34ce817070d/886447290170.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Dominic Fike - How Much Is Weed_.mp3",
@@ -4532,10 +4532,10 @@
       "duration": 0.0,
       "user_override": false,
       "tag_source": "auto",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "internet_genre": "alternative",
+      "internet_emotion": "melancholic",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/01/77/f9/0177f991-a79f-19c2-e01b-dc02c49c05bd/196871278003.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Dominic Fike - Mona Lisa.mp3",
@@ -4568,10 +4568,10 @@
       "duration": 0.0,
       "user_override": false,
       "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "internet_genre": "alternative",
+      "internet_emotion": "melancholic",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/01/77/f9/0177f991-a79f-19c2-e01b-dc02c49c05bd/196871278003.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Dominic Fike - Superstar Sh_t.mp3",
@@ -4603,18 +4603,18 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "auto",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "tag_source": "lyrics",
+      "internet_genre": "alternative",
+      "internet_emotion": "melancholic",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music123/v4/a5/2c/6c/a52c6c69-64cb-15a3-a81d-e30e3720f70b/886448586340.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Dominic Fike - White Keys.mp3",
       "name": "Dominic Fike - White Keys",
       "title": "White Keys",
       "artist": "Dominic Fike",
-      "emotion": "sad",
+      "emotion": "melancholic",
       "features": {
         "tempo_bpm": 107.7,
         "mfcc": [
@@ -4639,11 +4639,11 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "tag_source": "internet",
+      "internet_genre": "alternative",
+      "internet_emotion": "melancholic",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/0c/5a/ef/0c5aef1c-6929-76c8-d9cb-9c8e9c5537fa/196873758947.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Dominic Fike - Why.mp3",
@@ -4676,10 +4676,10 @@
       "duration": 0.0,
       "user_override": false,
       "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "internet_genre": "alternative",
+      "internet_emotion": "melancholic",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/8e/fd/6e/8efd6e85-4f10-bc3a-addf-541787c2b148/886448800101.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Don Toliver - Lose My Mind [From F1 The Movie] (feat. Doja Cat).mp3",
@@ -4712,10 +4712,10 @@
       "duration": 0.0,
       "user_override": false,
       "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "internet_genre": "pop",
+      "internet_emotion": "happy",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/c3/80/32/c380329e-2531-a71b-325b-4395640b877c/075679614438.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Drake - One Dance (feat. WizKid & Kyla).mp3",
@@ -4748,10 +4748,10 @@
       "duration": 0.0,
       "user_override": false,
       "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "internet_genre": "hip-hop/rap",
+      "internet_emotion": "energetic",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/f2/0d/8b/f20d8bff-a927-ae98-6784-20a1f51cb23e/16UMGIM27642.rgb.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Drod - eyes wide, open air.mp3",
@@ -4784,17 +4784,17 @@
       "duration": 0.0,
       "user_override": false,
       "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "internet_genre": "pop",
+      "internet_emotion": "happy",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/e3/14/ea/e314ea6a-b57f-f7cb-120f-8f645fec99a1/artwork.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Dua Lipa - Blow Your Mind (Mwah).mp3",
       "name": "Dua Lipa - Blow Your Mind (Mwah)",
       "title": "Blow Your Mind (Mwah)",
       "artist": "Dua Lipa",
-      "emotion": "energetic",
+      "emotion": "happy",
       "features": {
         "tempo_bpm": 107.7,
         "mfcc": [
@@ -4819,11 +4819,11 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "tag_source": "internet",
+      "internet_genre": "pop",
+      "internet_emotion": "happy",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/31/33/cf/3133cffc-4b77-f3c6-3ee3-5c9b6cfb6bd4/190295806675.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Dua Lipa - Dance The Night.mp3",
@@ -4856,10 +4856,10 @@
       "duration": 0.0,
       "user_override": false,
       "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "internet_genre": "pop",
+      "internet_emotion": "happy",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/c0/54/97/c05497aa-c19f-bf4f-de29-71edf30fbefb/075679688767.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Dutch Melrose - HONEY.mp3",
@@ -4892,10 +4892,10 @@
       "duration": 0.0,
       "user_override": false,
       "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "internet_genre": "pop",
+      "internet_emotion": "happy",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/a0/c5/73/a0c57300-575f-5b8e-4be0-af661b88b111/artwork.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Dutch Melrose - RUNRUNRUN.mp3",
@@ -4928,17 +4928,17 @@
       "duration": 0.0,
       "user_override": false,
       "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "internet_genre": "alternative",
+      "internet_emotion": "melancholic",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/f3/78/f9/f378f991-f85a-1ade-0519-6da2c157d54f/artwork.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Dutch Melrose & benny mayne - PRETTY PLEASE.mp3",
       "name": "Dutch Melrose & benny mayne - PRETTY PLEASE",
       "title": "PRETTY PLEASE",
       "artist": "Dutch Melrose & benny mayne",
-      "emotion": "energetic",
+      "emotion": "sad",
       "features": {
         "tempo_bpm": 123.0,
         "mfcc": [
@@ -4963,11 +4963,11 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "auto",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "tag_source": "lyrics",
+      "internet_genre": "alternative",
+      "internet_emotion": "melancholic",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/99/d5/97/99d5974d-e654-d59e-b4d4-5ed63b6cac27/artwork.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Ed Sheeran - Sapphire.mp3",
@@ -5000,10 +5000,10 @@
       "duration": 0.0,
       "user_override": false,
       "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "internet_genre": "pop",
+      "internet_emotion": "happy",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/7e/a1/fb/7ea1fb0b-97c8-6e1d-b44c-8a71a5d00ac4/5021732786821.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Ed Sheeran - Shape of You.mp3",
@@ -5036,10 +5036,10 @@
       "duration": 0.0,
       "user_override": false,
       "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "internet_genre": "pop",
+      "internet_emotion": "happy",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/15/e6/e8/15e6e8a4-4190-6a8b-86c3-ab4a51b88288/190295851286.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/EI8HT & Offset - Silk and Cologne (Spider-Verse Remix).mp3",
@@ -5072,10 +5072,10 @@
       "duration": 0.0,
       "user_override": false,
       "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "internet_genre": "hip-hop/rap",
+      "internet_emotion": "energetic",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/c9/ca/6b/c9ca6b51-87a9-4a13-d37f-24535687023d/23UMGIM63882.rgb.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Eli Wilson - Over My Head.mp3",
@@ -5107,18 +5107,18 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "auto",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "tag_source": "internet",
+      "internet_genre": "pop",
+      "internet_emotion": "happy",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/57/89/66/5789661b-cb2f-9a79-d8cc-02faebf1245d/810129977561.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Elijah N - Stick Together.mp3",
       "name": "Elijah N - Stick Together",
       "title": "Stick Together",
       "artist": "Elijah N",
-      "emotion": "sad",
+      "emotion": "happy",
       "features": {
         "tempo_bpm": 112.3,
         "mfcc": [
@@ -5143,18 +5143,18 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "tag_source": "internet",
+      "internet_genre": "pop",
+      "internet_emotion": "happy",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/30/51/8e/30518e70-f206-9966-f915-9303cc96b62c/7330178033207.png/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Emei - Crazy Stupid Love.mp3",
       "name": "Emei - Crazy Stupid Love",
       "title": "Crazy Stupid Love",
       "artist": "Emei",
-      "emotion": "energetic",
+      "emotion": "happy",
       "features": {
         "tempo_bpm": 86.1,
         "mfcc": [
@@ -5179,18 +5179,18 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "tag_source": "internet",
+      "internet_genre": "pop",
+      "internet_emotion": "happy",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/08/d0/c6/08d0c69e-d48b-4caf-8d72-18d4a2083049/7300343608325.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Emmanuel Franco - Do Me Like A Drug.mp3",
       "name": "Emmanuel Franco - Do Me Like A Drug",
       "title": "Do Me Like A Drug",
       "artist": "Emmanuel Franco",
-      "emotion": "sad",
+      "emotion": "angry",
       "features": {
         "tempo_bpm": 107.7,
         "mfcc": [
@@ -5215,11 +5215,11 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "tag_source": "internet",
+      "internet_genre": "rock",
+      "internet_emotion": "angry",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music123/v4/82/cf/f1/82cff182-41c4-104c-14ec-7609ea2f5138/193436192415_01_img001.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Empire Of The Sun - Walking On A Dream.mp3",
@@ -5252,17 +5252,17 @@
       "duration": 0.0,
       "user_override": false,
       "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "internet_genre": "electronic",
+      "internet_emotion": "energetic",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/7f/63/2c/7f632c08-3960-de3d-d34c-ee8140038b69/13UADIM60773.rgb.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/ENHYPEN- Drunk-Dazed (Audio).mp3",
       "name": "ENHYPEN- Drunk-Dazed (Audio)",
       "title": "ENHYPEN- Drunk-Dazed (Audio)",
       "artist": "",
-      "emotion": "energetic",
+      "emotion": "happy",
       "features": {
         "tempo_bpm": 136.0,
         "mfcc": [
@@ -5287,11 +5287,11 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "auto",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "tag_source": "lyrics",
+      "internet_genre": "k-pop",
+      "internet_emotion": "happy",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/a3/a1/e9/a3a1e9df-916c-cf24-09a3-0530f6186d65/192641603273_Cover.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/EPIC ROCK _ ''Rebellion'' by Jaxson Gamble.mp3",
@@ -5324,17 +5324,17 @@
       "duration": 0.0,
       "user_override": false,
       "tag_source": "auto",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "internet_genre": "alternative",
+      "internet_emotion": "melancholic",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/9b/31/11/9b31119b-c061-59ec-5f36-30b642925051/192641261091_Cover.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Ester Dean - Take You To Rio.mp3",
       "name": "Ester Dean - Take You To Rio",
       "title": "Take You To Rio",
       "artist": "Ester Dean",
-      "emotion": "calm",
+      "emotion": "focused",
       "features": {
         "tempo_bpm": 95.7,
         "mfcc": [
@@ -5359,18 +5359,18 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "tag_source": "internet",
+      "internet_genre": "soundtrack",
+      "internet_emotion": "focused",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/dc/02/24/dc02240e-2663-bbac-c111-8c84873a621d/00602537807871.rgb.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Ethan Fields - Cooler Than Me.mp3",
       "name": "Ethan Fields - Cooler Than Me",
       "title": "Cooler Than Me",
       "artist": "Ethan Fields",
-      "emotion": "energetic",
+      "emotion": "happy",
       "features": {
         "tempo_bpm": 136.0,
         "mfcc": [
@@ -5395,11 +5395,11 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "auto",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "tag_source": "lyrics",
+      "internet_genre": "indie rock",
+      "internet_emotion": "melancholic",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/1b/74/41/1b74415f-f482-fa9c-8284-af04573234fa/195543899799.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Evalyn - Big Bad City.mp3",
@@ -5432,17 +5432,17 @@
       "duration": 0.0,
       "user_override": false,
       "tag_source": "lyrics",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "internet_genre": "christmas: classical",
+      "internet_emotion": "calm",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/fe/10/5f/fe105fa8-48a9-f267-49b4-4421a504ae22/mzi.zdzhxydj.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Eve - Anoko secret.mp3",
       "name": "Eve - Anoko secret",
       "title": "Anoko secret",
       "artist": "Eve",
-      "emotion": "happy",
+      "emotion": "melancholic",
       "features": {
         "tempo_bpm": 107.7,
         "mfcc": [
@@ -5467,11 +5467,11 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "auto",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "tag_source": "lyrics",
+      "internet_genre": "j-pop",
+      "internet_emotion": "happy",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/2a/84/07/2a8407ff-01ef-b4df-a29b-c63e192aa51a/195497876488.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/Eve - Inochino Tabekata (DanceMix Ver.).mp3",
@@ -7733,9 +7733,9 @@
         "z": 0.8478303634136868,
         "s": 0.41765729409162755
       },
-      "duration": 0.0,
-      "user_override": false,
-      "tag_source": "lyrics",
+      "duration": 166.20195011337867,
+      "user_override": true,
+      "tag_source": "confirmed",
       "internet_genre": "",
       "internet_emotion": "",
       "original_auto": "",
