@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0d0d0d">
+<title>Solace</title>
+<style>
+  :root{
+    --bg:#0d0d0d; --bg2:#141414; --bg3:#1b1b1b; --bd:#262626;
+    --acc:#1D9E75; --acc2:#14704F; --txt:#e8e8e8; --mid:#8c8c8c; --dim:#4a4a4a;
+    --safe-b: env(safe-area-inset-bottom, 0px);
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0; height:100%;}
+  body{
+    background:var(--bg); color:var(--txt);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    -webkit-font-smoothing:antialiased; overscroll-behavior:none;
+    display:flex; flex-direction:column; height:100dvh;
+  }
+  button{font-family:inherit; cursor:pointer; border:none; color:inherit;}
+  .row{display:flex; align-items:center; gap:10px;}
+  .spin{width:34px;height:34px;border:3px solid var(--bd);border-top-color:var(--acc);
+    border-radius:50%;animation:sp 0.8s linear infinite;margin:40px auto;}
+  @keyframes sp{to{transform:rotate(360deg)}}
+
+  /* ── Header ─────────────────────────────────────────── */
+  header{
+    padding:calc(env(safe-area-inset-top,0px) + 14px) 18px 12px;
+    display:flex; align-items:center; gap:10px; flex:none;
+    border-bottom:1px solid var(--bd); background:linear-gradient(180deg,#101010,#0d0d0d);
+  }
+  header .logo{width:30px;height:30px;border-radius:8px;
+    background:linear-gradient(135deg,var(--acc),var(--acc2));
+    display:flex;align-items:center;justify-content:center;font-size:17px;}
+  header h1{font-size:19px; margin:0; font-weight:700; letter-spacing:.3px;}
+  header .sub{font-size:11px;color:var(--mid);margin-left:auto;}
+
+  /* ── Tabs ───────────────────────────────────────────── */
+  nav{display:flex; gap:6px; padding:10px 14px 4px; flex:none;}
+  nav button{
+    flex:1; padding:10px; border-radius:11px; background:var(--bg2);
+    color:var(--mid); font-size:14px; font-weight:600; border:1px solid var(--bd);
+    transition:.15s;
+  }
+  nav button.on{background:var(--acc); color:#04140d; border-color:var(--acc);}
+
+  main{flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch;
+    padding:8px 14px calc(150px + var(--safe-b)); }
+  .page{display:none;} .page.on{display:block;}
+
+  h2{font-size:13px;text-transform:uppercase;letter-spacing:1px;color:var(--mid);
+    margin:18px 2px 9px;font-weight:700;}
+
+  /* ── Chips ──────────────────────────────────────────── */
+  .chips{display:flex; flex-wrap:wrap; gap:8px;}
+  .chip{
+    padding:9px 14px; border-radius:20px; background:var(--bg2);
+    border:1.5px solid var(--bd); font-size:14px; color:var(--txt);
+    min-height:40px; display:flex; align-items:center; gap:6px; transition:.12s;
+  }
+  .chip:active{transform:scale(.95);}
+  .chip.on{border-color:var(--c,var(--acc)); background:color-mix(in srgb,var(--c,var(--acc)) 22%, var(--bg2)); color:#fff;}
+  .chip .dot{width:9px;height:9px;border-radius:50%;background:var(--c,var(--acc));}
+
+  .gen-btn{
+    width:100%; margin-top:18px; padding:16px; border-radius:14px;
+    background:linear-gradient(135deg,var(--acc),var(--acc2)); color:#04140d;
+    font-size:16px; font-weight:800; letter-spacing:.4px; min-height:54px;
+    box-shadow:0 6px 20px rgba(29,158,117,.25);
+  }
+  .gen-btn:disabled{opacity:.5; box-shadow:none;}
+  .gen-btn:active{transform:translateY(1px);}
+
+  /* ── Search ─────────────────────────────────────────── */
+  .search{width:100%; padding:13px 15px; border-radius:13px; background:var(--bg2);
+    border:1px solid var(--bd); color:var(--txt); font-size:16px; margin:4px 0 6px;}
+  .search:focus{outline:none; border-color:var(--acc);}
+
+  /* ── Song rows ──────────────────────────────────────── */
+  .list{display:flex; flex-direction:column; gap:2px;}
+  .song{
+    display:flex; align-items:center; gap:12px; padding:10px 8px; border-radius:12px;
+    transition:background .12s; cursor:pointer; user-select:none;
+  }
+  .song:active{background:var(--bg2);}
+  .song.playing{background:color-mix(in srgb,var(--acc) 16%, var(--bg));}
+  .cover{width:46px;height:46px;border-radius:9px;flex:none;object-fit:cover;
+    background:var(--bg3); display:flex;align-items:center;justify-content:center;
+    font-size:20px; color:#000; overflow:hidden;}
+  .meta{min-width:0; flex:1;}
+  .meta .t{font-size:15px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .meta .a{font-size:12.5px; color:var(--mid); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .badge{font-size:10px; padding:3px 8px; border-radius:9px; font-weight:700;
+    flex:none; text-transform:capitalize; letter-spacing:.2px;}
+  .num{width:22px;text-align:center;color:var(--dim);font-size:13px;flex:none;}
+  .noaudio{font-size:15px; color:var(--dim); flex:none; width:20px; text-align:center;}
+
+  .hint{color:var(--mid); font-size:13px; text-align:center; padding:30px 20px; line-height:1.6;}
+
+  /* ── Player bar ─────────────────────────────────────── */
+  .player{
+    position:fixed; left:0; right:0; bottom:0; z-index:30;
+    background:rgba(17,17,17,.96); backdrop-filter:blur(14px);
+    border-top:1px solid var(--bd);
+    padding:10px 14px calc(10px + var(--safe-b));
+    transform:translateY(120%); transition:transform .28s cubic-bezier(.2,.8,.2,1);
+  }
+  .player.up{transform:translateY(0);}
+  .pl-top{display:flex; align-items:center; gap:12px;}
+  .pl-top .cover{width:48px;height:48px;}
+  .pl-meta{flex:1; min-width:0;}
+  .pl-meta .t{font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .pl-meta .a{font-size:12px;color:var(--mid);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .ctrl{display:flex; align-items:center; gap:4px;}
+  .ctrl button{width:42px;height:42px;border-radius:50%;font-size:18px;
+    display:flex;align-items:center;justify-content:center;background:transparent;color:var(--txt);}
+  .ctrl button:active{background:var(--bg3);}
+  .ctrl .play{background:var(--txt);color:#000;width:46px;height:46px;font-size:18px;}
+  .ctrl .play:active{background:#fff;}
+  .seek{display:flex; align-items:center; gap:9px; margin-top:8px;}
+  .seek input{flex:1; -webkit-appearance:none; appearance:none; height:5px; border-radius:3px;
+    background:var(--bd); }
+  .seek input::-webkit-slider-thumb{-webkit-appearance:none; width:15px;height:15px;border-radius:50%;background:var(--acc);}
+  .seek input::-moz-range-thumb{width:15px;height:15px;border:none;border-radius:50%;background:var(--acc);}
+  .seek .tm{font-size:11px;color:var(--mid);width:38px;text-align:center;font-variant-numeric:tabular-nums;}
+
+  /* ── Lyrics sheet ───────────────────────────────────── */
+  .sheet{
+    position:fixed; inset:0; z-index:50; background:rgba(0,0,0,.55);
+    display:none; align-items:flex-end;
+  }
+  .sheet.on{display:flex;}
+  .sheet-inner{
+    background:var(--bg2); width:100%; max-height:82dvh; border-radius:20px 20px 0 0;
+    border-top:1px solid var(--bd); display:flex; flex-direction:column;
+    animation:rise .25s ease;
+  }
+  @keyframes rise{from{transform:translateY(40px);opacity:.6}to{transform:none;opacity:1}}
+  .sheet-hd{padding:16px 18px 8px; display:flex; align-items:center; gap:10px; flex:none;}
+  .sheet-hd .t{font-size:16px;font-weight:700;flex:1;min-width:0;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .sheet-hd button{font-size:22px;color:var(--mid);background:none;padding:0 4px;}
+  .sheet-body{padding:4px 20px 30px; overflow-y:auto; -webkit-overflow-scrolling:touch;
+    white-space:pre-wrap; line-height:1.75; font-size:15px; color:#d8d8d8;}
+  .grab{width:38px;height:4px;border-radius:2px;background:var(--bd);margin:9px auto 0;flex:none;}
+
+  .toast{position:fixed;bottom:calc(160px + var(--safe-b));left:50%;transform:translateX(-50%);
+    background:#000;border:1px solid var(--bd);padding:10px 16px;border-radius:11px;
+    font-size:13px;z-index:60;opacity:0;transition:.2s;pointer-events:none;}
+  .toast.on{opacity:1;}
+</style>
+</head>
+<body>
+  <header>
+    <div class="logo">♪</div>
+    <h1>Solace</h1>
+    <div class="sub" id="sub">loading…</div>
+  </header>
+
+  <nav>
+    <button id="tab-mix" class="on" onclick="showTab('mix')">For your mood</button>
+    <button id="tab-lib" onclick="showTab('lib')">Library</button>
+  </nav>
+
+  <main>
+    <!-- MOOD / GENERATE -->
+    <section id="page-mix" class="page on">
+      <h2>How do you feel?</h2>
+      <div class="chips" id="feelChips"></div>
+      <h2>What do you want?</h2>
+      <div class="chips" id="goalChips"></div>
+      <button class="gen-btn" id="genBtn" onclick="generate()">Generate playlist</button>
+      <div id="mixResult"></div>
+    </section>
+
+    <!-- LIBRARY -->
+    <section id="page-lib" class="page">
+      <input class="search" id="search" placeholder="Search your library…"
+             oninput="renderLib()" autocomplete="off">
+      <div class="list" id="libList"></div>
+    </section>
+  </main>
+
+  <!-- PLAYER -->
+  <div class="player" id="player">
+    <div class="pl-top">
+      <div class="cover" id="plCover">♪</div>
+      <div class="pl-meta" onclick="openLyrics()">
+        <div class="t" id="plTitle">—</div>
+        <div class="a" id="plArtist"></div>
+      </div>
+      <div class="ctrl">
+        <button onclick="prev()">⏮</button>
+        <button class="play" id="playBtn" onclick="toggle()">▶</button>
+        <button onclick="next()">⏭</button>
+      </div>
+    </div>
+    <div class="seek">
+      <span class="tm" id="cur">0:00</span>
+      <input type="range" id="seek" min="0" max="1000" value="0"
+             oninput="seekDrag(this.value)" onchange="seekSet(this.value)">
+      <span class="tm" id="dur">0:00</span>
+    </div>
+  </div>
+
+  <!-- LYRICS -->
+  <div class="sheet" id="sheet" onclick="if(event.target===this)closeLyrics()">
+    <div class="sheet-inner">
+      <div class="grab"></div>
+      <div class="sheet-hd">
+        <div class="t" id="lyrTitle">Lyrics</div>
+        <button onclick="closeLyrics()">✕</button>
+      </div>
+      <div class="sheet-body" id="lyrBody"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <audio id="audio" preload="none"></audio>
+
+<script>
+"use strict";
+const A = document.getElementById('audio');
+let DATA = {emotions:[],goals:[],songs:[],em_color:{},em_icon:{}};
+let FEEL = null, GOAL = null;
+let curList = [];      // list of song ids the player walks through
+let curPos  = -1;      // index within curList
+let curId   = -1;      // current song id
+
+const $  = id => document.getElementById(id);
+const esc = s => (s||'').replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmt = s => {s=Math.max(0,s|0); return (s/60|0)+':'+String(s%60).padStart(2,'0');};
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),1800);}
+
+// ── Boot ────────────────────────────────────────────────
+fetch('/api/data').then(r=>r.json()).then(d=>{
+  DATA=d;
+  $('sub').textContent = d.songs.length+' songs · '+d.playable+' playable';
+  buildChips();
+  renderLib();
+}).catch(()=>{ $('sub').textContent='failed to load'; });
+
+function color(em){return DATA.em_color[em]||'#1D9E75';}
+function icon(em){return DATA.em_icon[em]||'♪';}
+
+function buildChips(){
+  const fc=$('feelChips'), gc=$('goalChips');
+  fc.innerHTML=''; gc.innerHTML='';
+  DATA.emotions.forEach(em=>{
+    const b=document.createElement('button');
+    b.className='chip'; b.style.setProperty('--c',color(em));
+    b.innerHTML='<span class="dot"></span>'+em;
+    b.onclick=()=>{FEEL=em; sync(fc,b); syncGen();};
+    fc.appendChild(b);
+  });
+  DATA.goals.forEach(g=>{
+    const b=document.createElement('button');
+    b.className='chip'; b.textContent=g;
+    b.onclick=()=>{GOAL=g; sync(gc,b); syncGen();};
+    gc.appendChild(b);
+  });
+}
+function sync(parent,active){[...parent.children].forEach(c=>c.classList.toggle('on',c===active));}
+function syncGen(){$('genBtn').disabled = !(FEEL&&GOAL);}
+
+// ── Generate playlist ───────────────────────────────────
+function generate(){
+  if(!FEEL||!GOAL) return;
+  const out=$('mixResult');
+  out.innerHTML='<div class="spin"></div>';
+  fetch('/api/playlist',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({feel:FEEL,goal:GOAL,n:50})})
+  .then(r=>r.json()).then(d=>{
+    if(!d.songs.length){out.innerHTML='<div class="hint">No songs matched.</div>';return;}
+    const ids=d.songs.map(s=>s.id);
+    out.innerHTML='<h2 style="margin-top:22px">'+esc(d.goal)+' · '+d.songs.length+' songs</h2>'+
+      '<div class="list" id="mixList"></div>';
+    const L=$('mixList');
+    d.songs.forEach((s,i)=> L.appendChild(rowEl(s,i+1,ids)));
+    toast('Playlist ready — tap any song');
+  }).catch(()=>{out.innerHTML='<div class="hint">Generation failed.</div>';});
+}
+
+// ── Library ─────────────────────────────────────────────
+function renderLib(){
+  const q=($('search')?$('search').value:'').toLowerCase().trim();
+  const L=$('libList'); if(!L) return;
+  const items = DATA.songs.filter(s=>!q ||
+     (s.title+' '+s.artist+' '+s.emotion).toLowerCase().includes(q));
+  const ids = items.map(s=>s.id);
+  L.innerHTML='';
+  if(!items.length){L.innerHTML='<div class="hint">No matches.</div>';return;}
+  const frag=document.createDocumentFragment();
+  items.slice(0,400).forEach((s,i)=> frag.appendChild(rowEl(s,i+1,ids)));
+  L.appendChild(frag);
+}
+
+function rowEl(s,n,listIds){
+  const d=document.createElement('div');
+  d.className='song'+(s.id===curId?' playing':'');
+  d.dataset.sid=s.id;
+  const cov = s.cover
+    ? '<img class="cover" src="'+esc(s.cover)+'" onerror="this.replaceWith(emCover('+JSON.stringify(s.emotion)+'))">'
+    : emCoverHTML(s.emotion);
+  const playMark = s.has_audio ? '' : '<span class="noaudio" title="no audio on server">◌</span>';
+  d.innerHTML =
+    '<span class="num">'+n+'</span>'+cov+
+    '<div class="meta"><div class="t">'+esc(s.title)+'</div>'+
+    '<div class="a">'+esc(s.artist||'Unknown')+'</div></div>'+
+    playMark+
+    '<span class="badge" style="background:'+color(s.emotion)+'22;color:'+color(s.emotion)+'">'+esc(s.emotion)+'</span>';
+  d.onclick=()=> playFrom(listIds, listIds.indexOf(s.id));
+  return d;
+}
+function emCoverHTML(em){return '<div class="cover" style="background:linear-gradient(135deg,'+color(em)+','+color(em)+'88)">'+icon(em)+'</div>';}
+function emCover(em){const w=document.createElement('div');w.outerHTML=emCoverHTML(em);
+  const t=document.createElement('div');t.innerHTML=emCoverHTML(em);return t.firstChild;}
+
+// ── Playback ────────────────────────────────────────────
+function songById(id){return DATA.songs.find(s=>s.id===id);}
+function playFrom(listIds, pos){
+  curList=listIds.slice(); curPos=pos; loadAndPlay(listIds[pos]);
+}
+function loadAndPlay(id){
+  const s=songById(id); if(!s) return;
+  curId=id;
+  $('plTitle').textContent=s.title;
+  $('plArtist').textContent=s.artist||'Unknown';
+  const pc=$('plCover');
+  if(s.cover){pc.innerHTML='<img class="cover" src="'+esc(s.cover)+'" onerror="this.parentNode.textContent=\''+icon(s.emotion)+'\'">';
+    pc.style.background='var(--bg3)';}
+  else{pc.innerHTML=icon(s.emotion); pc.style.background='linear-gradient(135deg,'+color(s.emotion)+','+color(s.emotion)+'88)';}
+  $('player').classList.add('up');
+  markPlaying();
+  if(!s.has_audio){
+    A.removeAttribute('src'); A.load();
+    $('playBtn').textContent='▶';
+    toast('No audio file for this song on the server');
+    return;
+  }
+  A.src='/api/audio/'+id; A.play().then(()=>$('playBtn').textContent='⏸')
+    .catch(()=>{$('playBtn').textContent='▶';});
+}
+function markPlaying(){
+  document.querySelectorAll('.song').forEach(el=>
+    el.classList.toggle('playing', +el.dataset.sid===curId));
+}
+function toggle(){
+  if(!A.src){return;}
+  if(A.paused){A.play();$('playBtn').textContent='⏸';}
+  else{A.pause();$('playBtn').textContent='▶';}
+}
+function next(){ if(curPos<curList.length-1){curPos++; loadAndPlay(curList[curPos]);} }
+function prev(){
+  if(A.currentTime>3){A.currentTime=0;return;}
+  if(curPos>0){curPos--; loadAndPlay(curList[curPos]);}
+}
+A.addEventListener('ended', ()=>{
+  // auto-advance; skip songs without audio
+  let p=curPos;
+  while(p<curList.length-1){p++; const s=songById(curList[p]); if(s&&s.has_audio){curPos=p;loadAndPlay(curList[p]);return;}}
+  $('playBtn').textContent='▶';
+});
+A.addEventListener('timeupdate', ()=>{
+  if(!A.duration) return;
+  $('cur').textContent=fmt(A.currentTime);
+  $('dur').textContent=fmt(A.duration);
+  if(!seeking) $('seek').value = (A.currentTime/A.duration*1000)|0;
+});
+A.addEventListener('play', ()=>$('playBtn').textContent='⏸');
+A.addEventListener('pause',()=>$('playBtn').textContent='▶');
+
+let seeking=false;
+function seekDrag(v){seeking=true; if(A.duration)$('cur').textContent=fmt(v/1000*A.duration);}
+function seekSet(v){if(A.duration)A.currentTime=v/1000*A.duration; seeking=false;}
+
+// ── Lyrics ──────────────────────────────────────────────
+function openLyrics(){
+  if(curId<0) return;
+  const s=songById(curId);
+  $('lyrTitle').textContent=s.title+' — '+(s.artist||'');
+  $('lyrBody').innerHTML='<div class="spin"></div>';
+  $('sheet').classList.add('on');
+  fetch('/api/lyrics/'+curId).then(r=>r.json()).then(d=>{
+    $('lyrBody').textContent = d.lyrics || 'No lyrics found for this song.';
+  }).catch(()=>{$('lyrBody').textContent='Could not load lyrics.';});
+}
+function closeLyrics(){$('sheet').classList.remove('on');}
+
+// ── Tabs ────────────────────────────────────────────────
+function showTab(t){
+  $('page-mix').classList.toggle('on',t==='mix');
+  $('page-lib').classList.toggle('on',t==='lib');
+  $('tab-mix').classList.toggle('on',t==='mix');
+  $('tab-lib').classList.toggle('on',t==='lib');
+}
+</script>
+</body>
+</html>

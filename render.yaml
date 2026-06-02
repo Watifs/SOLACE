@@ -1,0 +1,13 @@
+# Render Blueprint — auto-deploys on every push to the connected GitHub repo.
+# In the Render dashboard: New → Blueprint → connect github.com/Watifs/SOLACE.
+services:
+  - type: web
+    name: solace
+    runtime: docker
+    plan: free
+    autoDeploy: true          # redeploys automatically on git push
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /healthz
+    envVars:
+      - key: PYTHONUNBUFFERED
+        value: "1"

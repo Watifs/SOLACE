@@ -3606,7 +3606,7 @@
       "name": "Chrystal & NOTION - The Days (NOTION Remix)",
       "title": "The Days (NOTION Remix)",
       "artist": "Chrystal & NOTION",
-      "emotion": "calm",
+      "emotion": "melancholic",
       "features": {
         "tempo_bpm": 92.3,
         "mfcc": [
@@ -3629,9 +3629,9 @@
         "z": 0.5830137165986228,
         "s": 0.20880017531513403
       },
-      "duration": 0.0,
-      "user_override": false,
-      "tag_source": "lyrics",
+      "duration": 233.39539682539683,
+      "user_override": true,
+      "tag_source": "user",
       "internet_genre": "dance",
       "internet_emotion": "energetic",
       "original_auto": "",

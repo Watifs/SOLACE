@@ -1,0 +1,51 @@
+{
+  "biases": {},
+  "mood_biases": {},
+  "affinity": {
+    "lift my mood": {
+      "happy": 2.0,
+      "melancholic": 2.0,
+      "angry": 0.71,
+      "focused": 0.07,
+      "calm": 0.14,
+      "energetic": 0.43
+    },
+    "calm me down": {
+      "focused": 0.1,
+      "calm": 2.0,
+      "melancholic": 0.03,
+      "energetic": 0.03
+    },
+    "energise me": {
+      "melancholic": 0.21,
+      "happy": 2.0,
+      "energetic": 0.64,
+      "angry": 0.21
+    },
+    "help me sleep": {
+      "focused": 0.23,
+      "calm": 2.0,
+      "happy": 0.04,
+      "energetic": 0.04
+    },
+    "feel melancholic": {
+      "calm": 2.0
+    },
+    "let me feel it": {
+      "melancholic": 1.67,
+      "angry": 2.0,
+      "happy": 2.0,
+      "calm": 1.11,
+      "focused": 2.0,
+      "energetic": 0.11
+    },
+    "help me focus": {
+      "focused": 2.0,
+      "calm": 0.74,
+      "energetic": 0.89,
+      "happy": 0.11
+    }
+  },
+  "log": [],
+  "affinity_ts": 1780362278.087727
+}
