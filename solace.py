@@ -62,6 +62,7 @@ LIBRARY_FILE   = _DIR / "solace_library.json"
 PLAYLISTS_FILE = _DIR / "solace_playlists.json"
 LEARNING_FILE  = _DIR / "solace_learning.json"
 LYRICS_FILE    = _DIR / "solace_lyrics.json"
+FEEDBACK_FILE  = _DIR / "solace_feedback.json"
 
 WORKER_THREADS    = 4
 ANALYSIS_DURATION = 45.0   # seconds to analyse per song (was 30)
@@ -628,6 +629,79 @@ def detect_emotion(text: str) -> str:
 
 
 # ==============================================================================
+#  PLAYLIST FEEDBACK  (the app learns per-goal emotion preferences from comments)
+# ==============================================================================
+#  Persisted shape:
+#    { "biases": { goal: { emotion: weight } }, "log": [ {ts,goal,comment,deltas} ] }
+#  weight > 0  → want MORE of this emotion for that goal
+#  weight <=-2 → effectively BANNED from that goal's playlists
+BIAS_MIN, BIAS_MAX, BAN_THRESHOLD = -5, 5, -2
+
+# Directional words: do we want MORE or LESS of the emotion mentioned nearby?
+_FB_POS = {"more","want","wants","wanted","add","adding","prefer","like","liked",
+           "love","loved","increase","extra","give","need","needs","include","please"}
+_FB_NEG = {"less","fewer","few","only","no","not","without","remove","removing",
+           "avoid","stop","hate","hated","dont","reduce","never","too","drop","skip"}
+
+# Words → emotion (curated to avoid false positives)
+_FB_EMO = {
+    "happy":"happy","happier":"happy","upbeat":"happy","cheerful":"happy",
+    "joyful":"happy","joy":"happy","fun":"happy","positive":"happy","bright":"happy",
+    "energetic":"energetic","energy":"energetic","exciting":"energetic",
+    "excited":"energetic","exited":"energetic","hype":"energetic","hyped":"energetic",
+    "pumped":"energetic","lively":"energetic","party":"energetic","dance":"energetic",
+    "upbeat ":"energetic","fast":"energetic","intense":"energetic",
+    "calm":"calm","calmer":"calm","relaxing":"calm","relaxed":"calm","chill":"calm",
+    "peaceful":"calm","mellow":"calm","soothing":"calm","soft":"calm","slow":"calm",
+    "sad":"sad","sadder":"sad","depressing":"sad","gloomy":"sad","down":"sad",
+    "crying":"sad","tearful":"sad","sorrow":"sad","miserable":"sad",
+    "melancholic":"melancholic","melancholy":"melancholic","nostalgic":"melancholic",
+    "wistful":"melancholic","bittersweet":"melancholic","moody":"melancholic",
+    "angry":"angry","aggressive":"angry","rage":"angry","heavy":"angry","mad":"angry",
+    "focused":"focused","focus":"focused","concentration":"focused","study":"focused",
+    "studying":"focused","productive":"focused",
+}
+
+
+def parse_feedback(text: str) -> dict:
+    """Read free-text feedback → {emotion: delta}.  + = want more, - = want less.
+
+    Tracks a running 'sign' set by words like more/less and applies it to the
+    emotion words that follow, resetting on contrast words (but/however) so
+    'no sad but more happy' splits correctly."""
+    if not text: return {}
+    clean = re.sub(r"[^\w\s]", " ", text.lower())
+    clean = re.sub(r"\b(but|however|though|although|whereas|instead)\b", " | ", clean)
+    deltas = {em: 0 for em in EMOTIONS}
+    sign = 0
+    for tok in clean.split():
+        if tok == "|":                       sign = 0;  continue
+        if tok in _FB_NEG:                    sign = -1; continue
+        if tok in _FB_POS:                    sign = +1; continue
+        em = _FB_EMO.get(tok)
+        if em:
+            deltas[em] += (sign if sign != 0 else +1)   # bare mention = mild "more"
+    return {em: d for em, d in deltas.items() if d != 0}
+
+
+def load_feedback() -> dict:
+    if not FEEDBACK_FILE.exists(): return {"biases": {}, "log": []}
+    try:
+        with open(FEEDBACK_FILE, encoding="utf-8") as f: d = json.load(f)
+        d.setdefault("biases", {}); d.setdefault("log", [])
+        return d
+    except Exception:
+        return {"biases": {}, "log": []}
+
+
+def save_feedback(fb: dict):
+    try:
+        with open(FEEDBACK_FILE, "w", encoding="utf-8") as f:
+            json.dump(fb, f, ensure_ascii=False, indent=2)
+    except Exception: pass
+
+
+# ==============================================================================
 #  PLAYLIST BUILDER
 # ==============================================================================
 def arc_for(goal, user_em, n):
@@ -639,7 +713,35 @@ def arc_for(goal, user_em, n):
     return [arc[min(i * L // n, L - 1)] for i in range(n)]
 
 
-def build_playlist(songs, user_em, goal, custom_tags, n=50):
+def _apply_bias_to_targets(targets, bias):
+    """Reshape the target-emotion sequence using learned per-goal preferences:
+    drop banned emotions, and lean a share of slots toward preferred ones."""
+    if not bias: return targets
+    banned    = {em for em, w in bias.items() if w <= BAN_THRESHOLD}
+    preferred = [em for em, w in sorted(bias.items(), key=lambda x: -x[1]) if w >= 1]
+    out, pi = [], 0
+    for em in targets:
+        if em in banned:
+            repl = None
+            if preferred:
+                repl = preferred[pi % len(preferred)]; pi += 1
+            else:
+                for nb in _NEARBY.get(em, []) + EMOTIONS:
+                    if nb not in banned: repl = nb; break
+            out.append(repl or em)
+        else:
+            out.append(em)
+    # Emphasise preferred emotions in a portion of the (non-banned) slots
+    if preferred:
+        for i in range(len(out)):
+            if i % 3 == 1 and out[i] not in banned:
+                out[i] = preferred[(i // 3) % len(preferred)]
+    return out
+
+
+def build_playlist(songs, user_em, goal, custom_tags, n=50, bias=None):
+    bias = bias or {}
+    banned = {em for em, w in bias.items() if w <= BAN_THRESHOLD}
     all_em = EMOTIONS + list(custom_tags.keys())
     pool   = {em: [] for em in all_em}
     for s in songs:
@@ -647,15 +749,19 @@ def build_playlist(songs, user_em, goal, custom_tags, n=50):
     for em in pool: random.shuffle(pool[em])
     # Never repeat a song, so cap length at the number of available songs
     n = min(n, len(songs))
-    targets = arc_for(goal, user_em, n)
+    targets = _apply_bias_to_targets(arc_for(goal, user_em, n), bias)
     playlist, used = [], set()
     for target in targets:
         candidates = [s for s in pool.get(target, []) if id(s) not in used]
         if not candidates:
             for nearby in _NEARBY.get(target, []):
+                if nearby in banned: continue
                 candidates = [s for s in pool.get(nearby, []) if id(s) not in used]
                 if candidates: break
-        if not candidates:
+        if not candidates:   # any remaining non-banned song
+            candidates = [s for s in songs
+                          if id(s) not in used and s.emotion not in banned]
+        if not candidates:   # last resort — ignore the ban rather than stop short
             candidates = [s for s in songs if id(s) not in used]
         if not candidates: break
         playlist.append(candidates[0]); used.add(id(candidates[0]))
@@ -879,9 +985,16 @@ class NowPlayingOverlay(Frame):
               bg=BG, fg=TXT, anchor=W, wraplength=520).pack(fill=X)
         Label(info, textvariable=self._now_art2, font=(FF,11),
               bg=BG, fg=TXT_MID, anchor=W).pack(fill=X, pady=(2,0))
-        self._em_lbl = Label(info, text="", font=(FF,10,"bold"),
-                             bg=BG, fg=TXT_DIM, anchor=W)
-        self._em_lbl.pack(fill=X, pady=(4,0))
+        em_row = Frame(info, bg=BG); em_row.pack(fill=X, pady=(4,0))
+        self._em_lbl = Label(em_row, text="", font=(FF,10,"bold"),
+                             bg=BG, fg=TXT_DIM, anchor=W, cursor="hand2")
+        self._em_lbl.pack(side=LEFT)
+        self._em_lbl.bind("<Button-1>", self._emotion_menu)
+        self._em_edit_btn = Button(em_row, text="✏ change tag", font=(FF,8),
+                                   bg=BG4, fg=TXT_MID, relief=FLAT, cursor="hand2",
+                                   padx=8, pady=2, activebackground=BG3,
+                                   activeforeground=TXT, command=self._emotion_menu)
+        self._em_edit_btn.pack(side=LEFT, padx=(10,0))
 
         # Controls
         ctl = Frame(right, bg=BG, pady=8, padx=18)
@@ -1157,6 +1270,44 @@ class NowPlayingOverlay(Frame):
             return app._queue[app._q_idx]
         return None
 
+    # ── Change the playing song's emotion tag from the full player ─────────────
+    def _emotion_menu(self, _event=None):
+        song = self._current_song()
+        if not song:
+            self.app._status.set("Nothing playing — start a song to tag it"); return
+        menu = Menu(self.app.root, tearoff=0, bg=BG3, fg=TXT,
+                    activebackground=ACCENT, activeforeground=WHITE,
+                    font=(FF,10), relief=FLAT, bd=0)
+        menu.add_command(label="  Change emotion tag", state=DISABLED)
+        menu.add_separator()
+        for em in EMOTIONS + list(self.app.custom_tags.keys()):
+            icon = EM_ICON.get(em) or self.app.custom_tags.get(em,{}).get("icon","♪")
+            mark = "  ●" if em == song.emotion else "   "
+            menu.add_command(label=f"{mark} {icon} {em}",
+                             command=lambda e=em: self._change_emotion(e))
+        try:   menu.tk_popup(self.app.root.winfo_pointerx(),
+                             self.app.root.winfo_pointery())
+        finally: menu.grab_release()
+
+    def _change_emotion(self, em):
+        song = self._current_song()
+        if not song: return
+        app = self.app
+        old = song.emotion
+        if old != em and song.features and not song.busy:
+            app.corrections = record_correction(app.corrections, song.features, old, em)
+        song.emotion       = em
+        song.user_override = True
+        song.tag_source    = "user"
+        save_library(app.songs, app.custom_tags)
+        app._uq.put(song)   # refresh the library row in place
+        col  = EM_COL.get(em)  or app.custom_tags.get(em,{}).get("color", TXT_DIM)
+        icon = EM_ICON.get(em) or app.custom_tags.get(em,{}).get("icon","♪")
+        self._em_lbl.config(text=f"{icon} {em}", fg=col)
+        n = len(app.corrections)
+        app._status.set(f"✏ Tag changed to {em} for '{song.title or song.name}'  ·  "
+                        f"model now has {n} correction{'s' if n!=1 else ''}")
+
     # ── Lyrics editing ─────────────────────────────────────────────────────────
     def _toggle_edit(self):
         self._lyrics_editing = not self._lyrics_editing
@@ -1381,6 +1532,7 @@ class SolaceApp:
         self.playlists:   list  = []
         self.corrections: list  = load_corrections()
         self.lyrics_db:   dict  = load_lyrics_db()
+        self.feedback:    dict  = load_feedback()
         self._overlay: "NowPlayingOverlay" = None  # set at end of _build_ui
 
         self._rq = queue.Queue()   # analysis results
@@ -1915,10 +2067,43 @@ class SolaceApp:
             messagebox.showinfo("Solace",
                 "Install pygame-ce for playback:\n\n    pip install pygame-ce"); return
         songs = self._lib_visible
-        if not songs: return
+        if not songs or idx < 0 or idx >= len(songs): return
+        seed = songs[idx]
+        # Keep whatever is visible from the clicked song onward (preserves the
+        # order you're browsing), then auto-fill a "radio" continuation from the
+        # rest of the library so playback never dead-ends — e.g. after a search
+        # that only shows one result.
+        head    = songs[idx:]
+        exclude = {id(s) for s in head}
+        tail    = self._autoplay_continuation(seed, exclude)
         self._next_up.clear()
-        self._play_playlist(songs, idx)
-        self._status.set(f"▶ Playing from library: {songs[idx].name}")
+        self._play_playlist(head + tail, 0)
+        self._status.set(f"▶ Playing: {seed.title or seed.name}"
+                         + (f"  ·  +{len(tail)} more queued from your library"
+                            if tail else ""))
+
+    def _autoplay_continuation(self, seed, exclude_ids):
+        """Build an emotion-aware 'radio' queue from the library: songs sharing
+        the seed's emotion first, then nearby emotions, then everything else."""
+        pool = [s for s in self.songs
+                if not s.busy and not s.failed and id(s) not in exclude_ids]
+        if not pool: return []
+        tiers: dict = {}
+        for s in pool:
+            tiers.setdefault(s.emotion, []).append(s)
+        for em in tiers: random.shuffle(tiers[em])
+        order, seen, result = ([seed.emotion]
+                               + _NEARBY.get(seed.emotion, [])
+                               + EMOTIONS), set(), []
+        for em in order:
+            for s in tiers.get(em, []):
+                if id(s) not in seen:
+                    seen.add(id(s)); result.append(s)
+        # Sweep up anything left (custom tags / "unknown" / failed-to-rank)
+        for s in pool:
+            if id(s) not in seen:
+                seen.add(id(s)); result.append(s)
+        return result
 
     def _lib_context_menu(self, event, song, idx):
         menu = Menu(self.root, tearoff=0, bg=BG3, fg=TXT,
@@ -1995,6 +2180,11 @@ class SolaceApp:
                activebackground=BG3, activeforeground=TXT,
                command=self._save_playlist_dialog, state=DISABLED)
         self._save_pl_btn.pack(side=LEFT, padx=(10,0))
+        self._fb_btn = Button(btn_row, text="  💬  Feedback  ", font=(FF,12,"bold"),
+               bg=BG4, fg=TXT_DIM, relief=FLAT, cursor="hand2", padx=20, pady=13,
+               activebackground=BG3, activeforeground=TXT,
+               command=self._open_feedback, state=DISABLED)
+        self._fb_btn.pack(side=LEFT, padx=(10,0))
 
         Frame(parent, bg=BORDER, height=1).pack(fill=X, **PAD)
 
@@ -2029,11 +2219,17 @@ class SolaceApp:
         text    = "" if self._ph else raw
         user_em = detect_emotion(text) if text else "melancholic"
         goal    = self._goal.get()
-        playlist = build_playlist(ready, user_em, goal, self.custom_tags, n=50)
+        bias    = self.feedback.get("biases", {}).get(goal, {})
+        playlist = build_playlist(ready, user_em, goal, self.custom_tags,
+                                  n=50, bias=bias)
         self._current_playlist = playlist
         self._render_playlist(playlist, user_em, goal)
         self._save_pl_btn.config(state=NORMAL, bg=ACCENT, fg=WHITE,
                                   activebackground=ACCENT_DK)
+        self._fb_btn.config(state=NORMAL, fg=TXT_MID)
+        if bias:
+            self._status.set(f"Generated with your learned preferences for "
+                             f"'{goal}': {self._bias_summary(bias)}")
 
     def _shuffle(self):
         if not self._current_playlist:
@@ -2089,6 +2285,123 @@ class SolaceApp:
                         "duration":s.duration} for s in self._current_playlist]}
         self.playlists.append(pl); save_playlists(self.playlists)
         messagebox.showinfo("Solace", f"'{name}' saved!  Find it in the Playlists tab.")
+
+    # ── Playlist feedback / learning ───────────────────────────────────────────
+    def _bias_summary(self, bias: dict) -> str:
+        more = [em for em, w in bias.items() if w >= 1]
+        less = [em for em, w in bias.items() if w <= -1]
+        parts = []
+        if more: parts.append("more " + ", ".join(more))
+        if less: parts.append("less " + ", ".join(less))
+        return " · ".join(parts) if parts else "no strong preference yet"
+
+    def _open_feedback(self):
+        goal = self._goal.get()
+        win  = Toplevel(self.root)
+        win.title("Playlist Feedback");  win.configure(bg=BG)
+        win.geometry("580x620");  win.transient(self.root); win.grab_set()
+
+        Label(win, text="How was this playlist?", font=(FF,16,"bold"),
+              bg=BG, fg=TXT).pack(anchor=W, padx=24, pady=(20,2))
+        Label(win, text=f"Teaching Solace what “{goal}” should sound like for you.",
+              font=(FF,10), bg=BG, fg=TXT_MID).pack(anchor=W, padx=24)
+
+        cur = self.feedback.get("biases", {}).get(goal, {})
+        Label(win, text="Currently learned:  " + self._bias_summary(cur),
+              font=(FF,9), bg=BG, fg=ACCENT if cur else TXT_DIM,
+              wraplength=520, justify=LEFT).pack(anchor=W, padx=24, pady=(8,0))
+
+        Label(win, text="Tell me what to change, in your own words:",
+              font=(FF,10,"bold"), bg=BG, fg=TXT).pack(anchor=W, padx=24, pady=(16,4))
+        txt = Text(win, height=4, font=(FF,11), bg=BG3, fg=TXT,
+                   insertbackground=TXT, relief=FLAT, padx=12, pady=10, wrap=WORD,
+                   highlightthickness=1, highlightbackground=BORDER,
+                   highlightcolor=ACCENT)
+        txt.pack(fill=X, padx=24)
+        txt.insert("1.0", "e.g. I wanted to feel better but it was all sad songs — "
+                          "give me more happy and exciting tracks.")
+        _ph = {"on": True}
+        def _clr(_):
+            if _ph["on"]: txt.delete("1.0", END); txt.config(fg=TXT); _ph["on"]=False
+        txt.bind("<FocusIn>", _clr)
+
+        # 3-state mood chips (neutral → more → less), auto-seeded from the comment
+        chip_state = {em: 0 for em in EMOTIONS}
+        chip_btns  = {}
+        Label(win, text="…or tap moods:  (once = more,  twice = less)",
+              font=(FF,9), bg=BG, fg=TXT_DIM).pack(anchor=W, padx=24, pady=(14,4))
+        chip_wrap = Frame(win, bg=BG); chip_wrap.pack(anchor=W, padx=20)
+
+        def _paint(em):
+            st = chip_state[em]; b = chip_btns[em]
+            if st > 0:   b.config(bg=EM_COL[em], fg=WHITE, text=f"  ＋ {em}  ")
+            elif st < 0: b.config(bg="#3a1010", fg="#EF5350", text=f"  − {em}  ")
+            else:        b.config(bg=EM_BG[em], fg=EM_COL[em], text=f"  {EM_ICON[em]} {em}  ")
+        def _cycle(em):
+            chip_state[em] = {0:1, 1:-1, -1:0}[chip_state[em]]; _paint(em)
+        for em in EMOTIONS:
+            b = Button(chip_wrap, font=(FF,9,"bold"), relief=FLAT, cursor="hand2",
+                       bd=0, padx=4, pady=5, command=lambda e=em: _cycle(e))
+            b.pack(side=LEFT, padx=3, pady=3); chip_btns[em] = b; _paint(em)
+
+        def _read_comment():
+            comment = "" if _ph["on"] else txt.get("1.0", END).strip()
+            parsed  = parse_feedback(comment)
+            for em in EMOTIONS:
+                chip_state[em] = max(-1, min(1, parsed.get(em, 0)))
+                _paint(em)
+            if not parsed:
+                self._status.set("Couldn't read a clear preference — tap the mood chips.")
+
+        info = Label(win, text="", font=(FF,9), bg=BG, fg=TXT_DIM,
+                     wraplength=520, justify=LEFT)
+        info.pack(anchor=W, padx=24, pady=(14,0))
+
+        btns = Frame(win, bg=BG); btns.pack(fill=X, padx=24, pady=18, side=BOTTOM)
+        Button(btns, text="Read my comment ↧", font=(FF,10), bg=BG4, fg=TXT_MID,
+               relief=FLAT, cursor="hand2", padx=14, pady=9,
+               activebackground=BG3, activeforeground=TXT,
+               command=_read_comment).pack(side=LEFT)
+        Button(btns, text="Cancel", font=(FF,10), bg=BG4, fg=TXT_MID,
+               relief=FLAT, cursor="hand2", padx=14, pady=9,
+               activebackground=BG3, activeforeground=TXT,
+               command=win.destroy).pack(side=RIGHT)
+
+        def _submit():
+            comment = "" if _ph["on"] else txt.get("1.0", END).strip()
+            deltas  = dict(parse_feedback(comment))
+            for em, st in chip_state.items():        # manual chips override the parse
+                if st != 0: deltas[em] = st
+            if not deltas:
+                info.config(text="Tell me what to change — type a comment or tap a mood.",
+                            fg="#EF5350"); return
+            self._apply_feedback(goal, comment, deltas)
+            win.destroy()
+        Button(btns, text="✓  Submit & Relearn", font=(FF,10,"bold"),
+               bg=ACCENT, fg=WHITE, relief=FLAT, cursor="hand2", padx=16, pady=9,
+               activebackground=ACCENT_DK, activeforeground=WHITE,
+               command=_submit).pack(side=RIGHT, padx=(0,8))
+
+    def _apply_feedback(self, goal, comment, deltas):
+        biases = self.feedback.setdefault("biases", {})
+        g      = biases.setdefault(goal, {})
+        for em, d in deltas.items():
+            g[em] = max(BIAS_MIN, min(BIAS_MAX, g.get(em, 0) + d))
+            if g[em] == 0: g.pop(em, None)
+        self.feedback.setdefault("log", []).append({
+            "ts": datetime.datetime.now().isoformat(),
+            "goal": goal, "comment": comment, "deltas": deltas})
+        save_feedback(self.feedback)
+        more = [em for em, d in deltas.items() if d > 0]
+        less = [em for em, d in deltas.items() if d < 0]
+        summary = []
+        if more: summary.append("more " + ", ".join(more))
+        if less: summary.append("less " + ", ".join(less))
+        self._status.set(f"💬 Learned for '{goal}': {' · '.join(summary) or 'noted'} "
+                         f"— regenerating with your feedback…")
+        # Regenerate immediately so the change is visible right away
+        self._switch_tab("Mix")
+        self._generate()
 
     # ──────────────────────────────────────────────────────────────────────────
     #  PLAYLISTS TAB
