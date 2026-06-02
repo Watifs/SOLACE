@@ -641,7 +641,7 @@
         "z": 0.6248364551450275,
         "s": 0.2933867612629984
       },
-      "duration": 0.0,
+      "duration": 219.16326530612244,
       "user_override": true,
       "tag_source": "user",
       "internet_genre": "",
@@ -3966,7 +3966,7 @@
       "name": "Cutty Vibez & Grioten - FACE IT",
       "title": "FACE IT",
       "artist": "Cutty Vibez & Grioten",
-      "emotion": "sad",
+      "emotion": "energetic",
       "features": {
         "tempo_bpm": 117.5,
         "mfcc": [
@@ -3989,9 +3989,9 @@
         "z": 0.8825790020120879,
         "s": 0.4936334634366681
       },
-      "duration": 0.0,
-      "user_override": false,
-      "tag_source": "lyrics",
+      "duration": 165.56573696145125,
+      "user_override": true,
+      "tag_source": "user",
       "internet_genre": "",
       "internet_emotion": "",
       "original_auto": "",
@@ -8826,7 +8826,7 @@
       "name": "jodi - if you do",
       "title": "if you do",
       "artist": "jodi",
-      "emotion": "happy",
+      "emotion": "sad",
       "features": {
         "tempo_bpm": 117.5,
         "mfcc": [
@@ -8851,18 +8851,18 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "auto",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "tag_source": "lyrics",
+      "internet_genre": "pop",
+      "internet_emotion": "happy",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/0c/2f/aa/0c2faaef-6aaf-cd61-8878-7cfd1658d4e6/artwork.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/John K - 1999.mp3",
       "name": "John K - 1999",
       "title": "1999",
       "artist": "John K",
-      "emotion": "happy",
+      "emotion": "energetic",
       "features": {
         "tempo_bpm": 99.4,
         "mfcc": [
@@ -8887,11 +8887,11 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "auto",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "tag_source": "lyrics",
+      "internet_genre": "pop",
+      "internet_emotion": "happy",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/e0/1c/f6/e01cf61d-e6e9-a151-7467-672c0d517763/886447671597.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/John K - if we never met (Audio) (feat. Kelsea Ballerini).mp3",
@@ -8923,18 +8923,18 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "auto",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "tag_source": "lyrics",
+      "internet_genre": "pop",
+      "internet_emotion": "happy",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/66/c2/eb/66c2ebb7-086d-3b72-6bb1-f1fc4c7c8028/886448236344.jpg/600x600bb.jpg"
     },
     {
       "path": "C:/Users/Prakash/Music/mega mix/John Michael Howell - Carnival.mp3",
       "name": "John Michael Howell - Carnival",
       "title": "Carnival",
       "artist": "John Michael Howell",
-      "emotion": "energetic",
+      "emotion": "happy",
       "features": {
         "tempo_bpm": 129.2,
         "mfcc": [
@@ -8959,11 +8959,11 @@
       },
       "duration": 0.0,
       "user_override": false,
-      "tag_source": "auto",
-      "internet_genre": "",
-      "internet_emotion": "",
+      "tag_source": "lyrics",
+      "internet_genre": "pop",
+      "internet_emotion": "happy",
       "original_auto": "",
-      "cover_url": ""
+      "cover_url": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/55/21/5b/55215beb-ae58-7709-0b4a-c50040f97ebd/artwork.jpg/600x600bb.jpg"
     }
   ]
 }

@@ -170,6 +170,45 @@ GENRE_MAP = {
     "alternative rock":"angry","heavy metal":"angry","metalcore":"angry",
 }
 
+# ── Research-informed goal → emotion targeting ────────────────────────────────
+# Grounded in music mood-regulation research (mood-management theory + a light
+# "iso-principle" bridge): to lift a low mood you do NOT dwell on sad music —
+# you move toward higher-valence / higher-energy tracks. `prefer` lists the
+# emotions to fill the playlist with (ranked); `avoid` are actively kept out;
+# `bridge` allows AT MOST one opening song matching how the user feels now,
+# only when that isn't an avoided emotion.
+GOAL_PROFILE = {
+    "lift my mood":     {"prefer":["happy","energetic","calm","focused"],
+                         "avoid":["sad","angry","melancholic"],     "bridge":False},
+    "calm me down":     {"prefer":["calm","focused","melancholic"],
+                         "avoid":["angry","energetic"],             "bridge":True},
+    "energise me":      {"prefer":["energetic","happy","focused"],
+                         "avoid":["sad","melancholic"],             "bridge":False},
+    "help me sleep":    {"prefer":["calm","melancholic"],
+                         "avoid":["energetic","angry","happy"],     "bridge":True},
+    "feel melancholic": {"prefer":["melancholic","calm","sad"],
+                         "avoid":["energetic","angry"],             "bridge":True},
+    "let me feel it":   {"prefer":["sad","melancholic","calm"],
+                         "avoid":["energetic","angry"],             "bridge":True},
+    "help me focus":    {"prefer":["focused","calm"],
+                         "avoid":["angry","sad","happy"],           "bridge":False},
+}
+
+# Energy ranking used to order a playlist into a gentle build-up / wind-down
+ENERGY_RANK = {"sad":0,"melancholic":1,"calm":2,"focused":3,
+               "happy":4,"energetic":5,"angry":5}
+
+# Search terms used to teach emotion affinity from online metadata (iTunes)
+GOAL_QUERY = {
+    "lift my mood":     "uplifting feel good happy",
+    "calm me down":     "calm relaxing soothing",
+    "energise me":      "energetic workout hype",
+    "help me sleep":    "sleep ambient peaceful",
+    "feel melancholic": "melancholic nostalgic wistful",
+    "let me feel it":   "sad emotional ballad",
+    "help me focus":    "focus study instrumental concentration",
+}
+
 
 # ==============================================================================
 #  AUDIO ANALYSIS
@@ -685,13 +724,14 @@ def parse_feedback(text: str) -> dict:
 
 
 def load_feedback() -> dict:
-    if not FEEDBACK_FILE.exists(): return {"biases": {}, "log": []}
+    blank = {"biases": {}, "mood_biases": {}, "affinity": {}, "log": []}
+    if not FEEDBACK_FILE.exists(): return blank
     try:
         with open(FEEDBACK_FILE, encoding="utf-8") as f: d = json.load(f)
-        d.setdefault("biases", {}); d.setdefault("log", [])
+        for k, v in blank.items(): d.setdefault(k, v)
         return d
     except Exception:
-        return {"biases": {}, "log": []}
+        return blank
 
 
 def save_feedback(fb: dict):
@@ -702,54 +742,75 @@ def save_feedback(fb: dict):
 
 
 # ==============================================================================
-#  PLAYLIST BUILDER
+#  PLAYLIST BUILDER  (weight model: research profile + learned biases + online)
 # ==============================================================================
-def arc_for(goal, user_em, n):
-    """Stretch the 7-step emotional arc across n positions → list of n emotions."""
-    arc = _ARCS.get(goal, _ARCS["calm me down"])[:]
-    arc[0] = user_em
-    L = len(arc)
-    if n <= 0: return []
-    return [arc[min(i * L // n, L - 1)] for i in range(n)]
+def emotion_weights(goal, custom_tags, bias=None, mood_bias=None, affinity=None):
+    """Combine every signal into one weight per emotion/tag for this goal.
+      • research GOAL_PROFILE (prefer ranked +, avoid −)
+      • online-learned affinity (small +)
+      • learned per-goal feedback bias (×2)
+      • learned 'when I feel X' mood→tag bias (×2)
+    Returns {emotion: weight}. weight <= BAN_THRESHOLD means 'keep it out'."""
+    bias = bias or {}; mood_bias = mood_bias or {}; affinity = affinity or {}
+    prof = GOAL_PROFILE.get(goal, GOAL_PROFILE["calm me down"])
+    w = {em: 0.0 for em in EMOTIONS + list(custom_tags.keys())}
+    pref = prof["prefer"]
+    for i, em in enumerate(pref):
+        w[em] = w.get(em, 0) + (len(pref) - i) * 2.0      # ranked preference
+    for em in prof["avoid"]:
+        w[em] = w.get(em, 0) - 6.0                        # strong keep-out
+    for em, a in affinity.items():
+        w[em] = w.get(em, 0) + max(-2.0, min(2.0, a))     # online refinement
+    for em, b in bias.items():
+        w[em] = w.get(em, 0) + b * 2.0                    # learned goal feedback
+    for tag, b in mood_bias.items():
+        w[tag] = w.get(tag, 0) + b * 2.0                  # learned mood→tag pref
+    return w
 
 
-def _apply_bias_to_targets(targets, bias):
-    """Reshape the target-emotion sequence using learned per-goal preferences:
-    drop banned emotions, and lean a share of slots toward preferred ones."""
-    if not bias: return targets
-    banned    = {em for em, w in bias.items() if w <= BAN_THRESHOLD}
-    preferred = [em for em, w in sorted(bias.items(), key=lambda x: -x[1]) if w >= 1]
-    out, pi = [], 0
-    for em in targets:
-        if em in banned:
-            repl = None
-            if preferred:
-                repl = preferred[pi % len(preferred)]; pi += 1
-            else:
-                for nb in _NEARBY.get(em, []) + EMOTIONS:
-                    if nb not in banned: repl = nb; break
-            out.append(repl or em)
-        else:
-            out.append(em)
-    # Emphasise preferred emotions in a portion of the (non-banned) slots
-    if preferred:
-        for i in range(len(out)):
-            if i % 3 == 1 and out[i] not in banned:
-                out[i] = preferred[(i // 3) % len(preferred)]
-    return out
+def _journey_order(goal, emotions):
+    """Order chosen emotions into a gentle build-up (uplift/energise) or
+    wind-down (calm/sleep); otherwise strongest preference first."""
+    if goal in ("lift my mood", "energise me"):
+        return sorted(emotions, key=lambda e: ENERGY_RANK.get(e, 3))
+    if goal in ("calm me down", "help me sleep"):
+        return sorted(emotions, key=lambda e: -ENERGY_RANK.get(e, 3))
+    return emotions
 
 
-def build_playlist(songs, user_em, goal, custom_tags, n=50, bias=None):
-    bias = bias or {}
-    banned = {em for em, w in bias.items() if w <= BAN_THRESHOLD}
-    all_em = EMOTIONS + list(custom_tags.keys())
-    pool   = {em: [] for em in all_em}
+def build_playlist(songs, user_em, goal, custom_tags, n=50,
+                   bias=None, mood_bias=None, affinity=None):
+    weights = emotion_weights(goal, custom_tags, bias, mood_bias, affinity)
+    banned  = {em for em, x in weights.items() if x <= BAN_THRESHOLD}
+    pos     = {em: x for em, x in weights.items() if x > 0}
+    if not pos:   # nothing positive — fall back to the goal's preferred list
+        pos = {em: 1.0 for em in GOAL_PROFILE.get(goal, GOAL_PROFILE["calm me down"])["prefer"]}
+
+    pool = {em: [] for em in EMOTIONS + list(custom_tags.keys())}
     for s in songs:
         if s.emotion in pool: pool[s.emotion].append(s)
     for em in pool: random.shuffle(pool[em])
-    # Never repeat a song, so cap length at the number of available songs
+
     n = min(n, len(songs))
-    targets = _apply_bias_to_targets(arc_for(goal, user_em, n), bias)
+    # Allocate slots proportional to positive weight
+    total  = sum(pos.values())
+    counts = {em: int(round(n * x / total)) for em, x in pos.items()}
+    order  = _journey_order(goal, [em for em in pos if counts.get(em, 0) > 0] or list(pos))
+
+    # Optional single "bridge" song matching how the user feels now (iso-principle),
+    # but only when that emotion isn't one we're trying to avoid.
+    prof = GOAL_PROFILE.get(goal, GOAL_PROFILE["calm me down"])
+    targets = []
+    if prof.get("bridge") and user_em not in banned and pool.get(user_em):
+        targets.append(user_em)
+    for em in order:
+        targets += [em] * counts.get(em, 0)
+    # pad / trim to exactly n, cycling through the preferred order
+    idx = 0
+    while len(targets) < n and order:
+        targets.append(order[idx % len(order)]); idx += 1
+    targets = targets[:n]
+
     playlist, used = [], set()
     for target in targets:
         candidates = [s for s in pool.get(target, []) if id(s) not in used]
@@ -758,14 +819,40 @@ def build_playlist(songs, user_em, goal, custom_tags, n=50, bias=None):
                 if nearby in banned: continue
                 candidates = [s for s in pool.get(nearby, []) if id(s) not in used]
                 if candidates: break
-        if not candidates:   # any remaining non-banned song
+        if not candidates:
             candidates = [s for s in songs
                           if id(s) not in used and s.emotion not in banned]
-        if not candidates:   # last resort — ignore the ban rather than stop short
+        if not candidates:   # last resort — never stop short
             candidates = [s for s in songs if id(s) not in used]
         if not candidates: break
         playlist.append(candidates[0]); used.add(id(candidates[0]))
     return playlist
+
+
+# ── Online learning: teach emotion affinity per goal from iTunes metadata ─────
+def learn_affinity_online(goal: str) -> dict:
+    """Search the iTunes catalogue for this goal's mood terms, tally the genres
+    of the results, map them to emotions (GENRE_MAP) and return a small affinity
+    weight per emotion. Best-effort; returns {} offline."""
+    term = GOAL_QUERY.get(goal)
+    if not term: return {}
+    try:
+        q   = urllib.parse.quote(term)
+        url = (f"https://itunes.apple.com/search?term={q}"
+               f"&media=music&entity=song&limit=80")
+        req = urllib.request.Request(url, headers={"User-Agent": "Solace/5.0"})
+        with urllib.request.urlopen(req, timeout=8) as r:
+            data = json.loads(r.read())
+    except Exception:
+        return {}
+    tally = {}
+    for res in data.get("results", []):
+        em = genre_to_emotion((res.get("primaryGenreName") or "").lower())
+        if em: tally[em] = tally.get(em, 0) + 1
+    if not tally: return {}
+    top = max(tally.values())
+    # Normalise to 0..2 so it only nudges, never overrides profile/feedback
+    return {em: round(2.0 * c / top, 2) for em, c in tally.items()}
 
 
 # ==============================================================================
@@ -2219,17 +2306,23 @@ class SolaceApp:
         text    = "" if self._ph else raw
         user_em = detect_emotion(text) if text else "melancholic"
         goal    = self._goal.get()
-        bias    = self.feedback.get("biases", {}).get(goal, {})
+        bias      = self.feedback.get("biases", {}).get(goal, {})
+        mood_bias = self.feedback.get("mood_biases", {}).get(user_em, {})
+        affinity  = self.feedback.get("affinity", {}).get(goal, {})
         playlist = build_playlist(ready, user_em, goal, self.custom_tags,
-                                  n=50, bias=bias)
+                                  n=50, bias=bias, mood_bias=mood_bias,
+                                  affinity=affinity)
         self._current_playlist = playlist
         self._render_playlist(playlist, user_em, goal)
         self._save_pl_btn.config(state=NORMAL, bg=ACCENT, fg=WHITE,
                                   activebackground=ACCENT_DK)
         self._fb_btn.config(state=NORMAL, fg=TXT_MID)
-        if bias:
-            self._status.set(f"Generated with your learned preferences for "
-                             f"'{goal}': {self._bias_summary(bias)}")
+        notes = []
+        if bias:      notes.append(self._bias_summary(bias))
+        if mood_bias: notes.append(f"when {user_em}: more "
+                                   + ", ".join(t for t,v in mood_bias.items() if v>0))
+        if notes:
+            self._status.set(f"Generated for '{goal}' · " + " · ".join(notes))
 
     def _shuffle(self):
         if not self._current_playlist:
@@ -2243,12 +2336,10 @@ class SolaceApp:
 
     def _render_playlist(self, playlist, user_em, goal):
         for w in self._pl_fr.winfo_children(): w.destroy()
-        targets = arc_for(goal, user_em, len(playlist))
         icon = EM_ICON.get(user_em,"◎")
         self._pl_meta.config(
             text=f"detected: {icon} {user_em}   ·   goal: {goal}   ·   {len(playlist)} songs")
         for i, song in enumerate(playlist):
-            arc_em = targets[i] if i < len(targets) else song.emotion
             row = Frame(self._pl_fr, bg=BG, pady=13); row.pack(fill=X)
             pb = Button(row, text="▶", font=(FF,12), bg=BG4, fg=ACCENT,
                         relief=FLAT, cursor="hand2", padx=8, pady=4,
@@ -2263,7 +2354,7 @@ class SolaceApp:
             name_str = (display[:54]+"…") if len(display)>54 else display
             Label(info, text=name_str, font=(FF,12,"bold"),
                   bg=BG, fg=TXT, anchor=W).pack(fill=X)
-            sub = f"arc step → {arc_em}   ·   {_fmt_dur(song.duration)}"
+            sub = f"{song.emotion}   ·   {_fmt_dur(song.duration)}"
             if song.tag_source != "auto":
                 sub += f"   ·   {SRC_LABEL.get(song.tag_source,'')}"
             Label(info, text=sub, font=(FF,9), bg=BG, fg=TXT_DIM, anchor=W).pack(fill=X)
@@ -2299,7 +2390,7 @@ class SolaceApp:
         goal = self._goal.get()
         win  = Toplevel(self.root)
         win.title("Playlist Feedback");  win.configure(bg=BG)
-        win.geometry("580x620");  win.transient(self.root); win.grab_set()
+        win.geometry("600x760");  win.transient(self.root); win.grab_set()
 
         Label(win, text="How was this playlist?", font=(FF,16,"bold"),
               bg=BG, fg=TXT).pack(anchor=W, padx=24, pady=(20,2))
@@ -2344,6 +2435,47 @@ class SolaceApp:
                        bd=0, padx=4, pady=5, command=lambda e=em: _cycle(e))
             b.pack(side=LEFT, padx=3, pady=3); chip_btns[em] = b; _paint(em)
 
+        # ── Mood → tags rule: "when I'm feeling X, recommend more [tags]" ───────
+        Frame(win, bg=BORDER, height=1).pack(fill=X, padx=24, pady=(16,0))
+        raw_mood  = self._mood.get("1.0", END).strip()
+        detected  = detect_emotion(raw_mood) if (raw_mood and not self._ph) else "sad"
+        feel_row  = Frame(win, bg=BG); feel_row.pack(anchor=W, padx=24, pady=(12,4))
+        Label(feel_row, text="When I'm feeling", font=(FF,10,"bold"),
+              bg=BG, fg=TXT).pack(side=LEFT)
+        feel_var  = StringVar(value=detected)
+        fopt = OptionMenu(feel_row, feel_var, *EMOTIONS)
+        fopt.config(bg=BG3, fg=TXT, relief=FLAT, font=(FF,10), padx=8, pady=2,
+                    activebackground=BG4, highlightthickness=1,
+                    highlightbackground=BORDER, cursor="hand2")
+        fopt["menu"].config(bg=BG3, fg=TXT, font=(FF,10),
+                            activebackground=ACCENT, activeforeground=WHITE)
+        fopt.pack(side=LEFT, padx=(8,0))
+        Label(feel_row, text=", recommend more songs tagged:", font=(FF,10),
+              bg=BG, fg=TXT_MID).pack(side=LEFT, padx=(8,0))
+
+        mtag_state = {t: 0 for t in EMOTIONS + list(self.custom_tags.keys())}
+        mtag_btns  = {}
+        mtag_wrap  = Frame(win, bg=BG); mtag_wrap.pack(anchor=W, padx=20, pady=(2,0))
+        def _mpaint(t):
+            on = mtag_state[t] > 0; b = mtag_btns[t]
+            col  = EM_COL.get(t) or self.custom_tags.get(t,{}).get("color","#aaa")
+            bgc  = EM_BG.get(t)  or self.custom_tags.get(t,{}).get("bg","#1a1a1a")
+            icon = EM_ICON.get(t) or self.custom_tags.get(t,{}).get("icon","♪")
+            if on: b.config(bg=col, fg=WHITE, text=f"  ✓ {t}  ")
+            else:  b.config(bg=bgc, fg=col,  text=f"  {icon} {t}  ")
+        def _mtoggle(t):
+            mtag_state[t] = 0 if mtag_state[t] else 1; _mpaint(t)
+        for t in EMOTIONS + list(self.custom_tags.keys()):
+            b = Button(mtag_wrap, font=(FF,9,"bold"), relief=FLAT, cursor="hand2",
+                       bd=0, padx=4, pady=5, command=lambda x=t: _mtoggle(x))
+            b.pack(side=LEFT, padx=3, pady=3); mtag_btns[t] = b; _mpaint(t)
+        # Pre-seed with what's already learned for the detected feeling
+        def _seed_mtags(*_):
+            existing = self.feedback.get("mood_biases", {}).get(feel_var.get(), {})
+            for t in mtag_state:
+                mtag_state[t] = 1 if existing.get(t, 0) > 0 else 0; _mpaint(t)
+        feel_var.trace_add("write", _seed_mtags); _seed_mtags()
+
         def _read_comment():
             comment = "" if _ph["on"] else txt.get("1.0", END).strip()
             parsed  = parse_feedback(comment)
@@ -2372,33 +2504,45 @@ class SolaceApp:
             deltas  = dict(parse_feedback(comment))
             for em, st in chip_state.items():        # manual chips override the parse
                 if st != 0: deltas[em] = st
-            if not deltas:
-                info.config(text="Tell me what to change — type a comment or tap a mood.",
-                            fg="#EF5350"); return
-            self._apply_feedback(goal, comment, deltas)
+            feeling     = feel_var.get()
+            mood_deltas = {t: 1 for t, st in mtag_state.items() if st > 0}
+            if not deltas and not mood_deltas:
+                info.config(text="Tell me what to change — type a comment, tap a mood, "
+                                 "or set a 'when I'm feeling…' rule.", fg="#EF5350")
+                return
+            self._apply_feedback(goal, comment, deltas, feeling, mood_deltas)
             win.destroy()
         Button(btns, text="✓  Submit & Relearn", font=(FF,10,"bold"),
                bg=ACCENT, fg=WHITE, relief=FLAT, cursor="hand2", padx=16, pady=9,
                activebackground=ACCENT_DK, activeforeground=WHITE,
                command=_submit).pack(side=RIGHT, padx=(0,8))
 
-    def _apply_feedback(self, goal, comment, deltas):
-        biases = self.feedback.setdefault("biases", {})
-        g      = biases.setdefault(goal, {})
+    def _apply_feedback(self, goal, comment, deltas, feeling=None, mood_deltas=None):
+        # Per-goal preference (e.g. "for 'lift my mood', less sad")
+        g = self.feedback.setdefault("biases", {}).setdefault(goal, {})
         for em, d in deltas.items():
             g[em] = max(BIAS_MIN, min(BIAS_MAX, g.get(em, 0) + d))
             if g[em] == 0: g.pop(em, None)
+        # Per-mood rule (e.g. "when I'm feeling sad, recommend more happy, energetic")
+        mood_deltas = mood_deltas or {}
+        if feeling and mood_deltas:
+            m = self.feedback.setdefault("mood_biases", {}).setdefault(feeling, {})
+            for t, d in mood_deltas.items():
+                m[t] = max(BIAS_MIN, min(BIAS_MAX, m.get(t, 0) + d))
+                if m[t] == 0: m.pop(t, None)
         self.feedback.setdefault("log", []).append({
-            "ts": datetime.datetime.now().isoformat(),
-            "goal": goal, "comment": comment, "deltas": deltas})
+            "ts": datetime.datetime.now().isoformat(), "goal": goal,
+            "comment": comment, "deltas": deltas,
+            "feeling": feeling, "mood_deltas": mood_deltas})
         save_feedback(self.feedback)
         more = [em for em, d in deltas.items() if d > 0]
         less = [em for em, d in deltas.items() if d < 0]
         summary = []
         if more: summary.append("more " + ", ".join(more))
         if less: summary.append("less " + ", ".join(less))
+        if mood_deltas: summary.append(f"when {feeling}: more " + ", ".join(mood_deltas))
         self._status.set(f"💬 Learned for '{goal}': {' · '.join(summary) or 'noted'} "
-                         f"— regenerating with your feedback…")
+                         f"— regenerating…")
         # Regenerate immediately so the change is visible right away
         self._switch_tab("Mix")
         self._generate()
@@ -2858,6 +3002,27 @@ class SolaceApp:
         for _ in range(WORKER_THREADS):
             threading.Thread(target=self._analysis_worker, daemon=True).start()
         threading.Thread(target=self._metadata_worker, daemon=True).start()
+        threading.Thread(target=self._affinity_worker, daemon=True).start()
+
+    def _affinity_worker(self):
+        """Teach per-goal emotion affinity from online metadata (once a week).
+        Refines — never overrides — the research profile and user feedback."""
+        time.sleep(4)   # let startup settle
+        aff   = self.feedback.setdefault("affinity", {})
+        stamp = self.feedback.get("affinity_ts", 0)
+        if time.time() - stamp < 7 * 86400 and aff:
+            return   # fresh enough
+        changed = False
+        for goal in GOALS:
+            data = learn_affinity_online(goal)
+            if data:
+                aff[goal] = data; changed = True
+                time.sleep(0.5)   # be polite to the API
+        if changed:
+            self.feedback["affinity_ts"] = time.time()
+            save_feedback(self.feedback)
+            self.root.after(0, lambda: self._status.set(
+                "🌐 Learned mood→music associations from online metadata"))
 
     def _analysis_worker(self):
         while True:
