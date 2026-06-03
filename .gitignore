@@ -1,9 +1,0 @@
-__pycache__/
-*.pyc
-*.pyo
-.venv/
-venv/
-.vscode/
-.idea/
-.DS_Store
-# Keep the data JSONs and sample_music tracked — the web app needs them.
