@@ -1,0 +1,49 @@
+name: mac-build
+
+# Builds the macOS .app bundle with PyInstaller, zips it, and uploads the
+# zip as a downloadable artifact on every push to main.
+# (SOLACE is a Python/Tkinter app, so this uses Python/PyInstaller rather
+# than Node.)
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-mac:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install build dependencies
+        run: |
+          python -m pip install --upgrade pip
+          # numpy is required; pygame/Pillow/mutagen power audio, artwork and
+          # tags. librosa is optional (app degrades gracefully) so it's left
+          # out to keep the build lean and reliable.
+          pip install pyinstaller numpy pygame Pillow mutagen
+
+      - name: Build SOLACE.app
+        run: |
+          python -m PyInstaller --noconfirm --windowed \
+            --name "SOLACE" \
+            --osx-bundle-identifier "com.solace.app" \
+            --hidden-import "PIL._tkinter_finder" \
+            --add-data "templates:templates" \
+            solace.py
+
+      - name: Zip the .app bundle
+        run: |
+          cd dist
+          ditto -c -k --sequesterRsrc --keepParent "SOLACE.app" "SOLACE-mac.zip"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mac-build
+          path: dist/SOLACE-mac.zip
+          if-no-files-found: error
