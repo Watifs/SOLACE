@@ -57,7 +57,22 @@ except ImportError:
     Image = ImageTk = None; _PIL = False
 
 # ── Data files ────────────────────────────────────────────────────────────────
-_DIR           = Path(__file__).parent
+import sys, tempfile
+# When running as a packaged app (PyInstaller) the bundle is read-only and a
+# one-file build unpacks to a temp dir, so keep user data in a writable per-user
+# folder instead of next to __file__. Running from source keeps the old
+# behaviour (data lives beside solace.py).
+if getattr(sys, "frozen", False):
+    if sys.platform == "darwin":
+        _DIR = Path.home() / "Library" / "Application Support" / "SOLACE"
+    elif os.name == "nt":
+        _DIR = Path(os.environ.get("APPDATA") or Path.home()) / "SOLACE"
+    else:
+        _DIR = Path.home() / ".solace"
+    try: _DIR.mkdir(parents=True, exist_ok=True)
+    except Exception: _DIR = Path(tempfile.gettempdir())
+else:
+    _DIR = Path(__file__).parent
 LIBRARY_FILE   = _DIR / "solace_library.json"
 PLAYLISTS_FILE = _DIR / "solace_playlists.json"
 LEARNING_FILE  = _DIR / "solace_learning.json"
@@ -3190,7 +3205,16 @@ class SolaceApp:
 
 
 # ==============================================================================
+# Bump this for each release; the update check compares it to the latest
+# GitHub release tag (e.g. tag "v1.0.1" > APP_VERSION "1.0.0").
+APP_VERSION = "1.0.0"
+
 if __name__ == "__main__":
     root = Tk()
     SolaceApp(root)
+    try:
+        from updatecheck import check_for_updates
+        check_for_updates(root, "Watifs/SOLACE", APP_VERSION, "SOLACE")
+    except Exception:
+        pass  # update check is best-effort; never block startup
     root.mainloop()

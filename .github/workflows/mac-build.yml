@@ -33,7 +33,6 @@ jobs:
             --name "SOLACE" \
             --osx-bundle-identifier "com.solace.app" \
             --hidden-import "PIL._tkinter_finder" \
-            --add-data "templates:templates" \
             solace.py
 
       - name: Zip the .app bundle

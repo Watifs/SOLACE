@@ -1,0 +1,62 @@
+name: release
+
+# On every version tag (e.g. v1.0.1) build the Windows .exe and the macOS .app,
+# then publish them to a permanent GitHub Release. Shipping an update = bump
+# APP_VERSION in solace.py, commit, then push a matching tag:
+#     git tag v1.0.1 && git push origin v1.0.1
+# Installed copies notice the newer release on next launch and offer to open the
+# download page (see updatecheck.py).
+#
+# Lean build: heavy/optional audio libs (e.g. librosa/scipy) are NOT bundled so
+# the build stays small and reliable; solace.py degrades gracefully without them.
+# To use offline audio analysis, run from source with those libs installed.
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write   # required for softprops to create/update the Release
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install build dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller numpy pygame Pillow mutagen
+      - name: Build SOLACE.exe
+        run: python -m PyInstaller --noconfirm --onefile --windowed --name "SOLACE" --hidden-import "PIL._tkinter_finder" --distpath "dist/windows" --workpath "build/windows" solace.py
+      - name: Publish to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/windows/SOLACE.exe
+          fail_on_unmatched_files: true
+
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install build dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller numpy pygame Pillow mutagen
+      - name: Build SOLACE.app
+        run: python -m PyInstaller --noconfirm --windowed --name "SOLACE" --osx-bundle-identifier "com.solace.app" --hidden-import "PIL._tkinter_finder" solace.py
+      - name: Zip the .app bundle
+        run: |
+          cd dist
+          ditto -c -k --sequesterRsrc --keepParent "SOLACE.app" "SOLACE-mac.zip"
+      - name: Publish to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/SOLACE-mac.zip
+          fail_on_unmatched_files: true

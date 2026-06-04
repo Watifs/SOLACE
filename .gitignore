@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+*-venv/
+
+# PyInstaller: build the .exe / .app via the build scripts or CI and ship them
+# through GitHub Releases — never commit the heavy build outputs or generated specs.
+build/
+dist/
+SOLACE.spec
+*.zip
